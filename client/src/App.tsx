@@ -8,22 +8,20 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/use-auth";
 import NotFound from "@/pages/not-found";
 import { Loader2 } from "lucide-react";
-
 import { Navbar } from "@/components/layout/Navbar";
 import Landing from "@/pages/Landing";
 import Home from "@/pages/Home";
 import CoffeeShopsDirectory from "@/pages/CoffeeShopsDirectory";
 import CoffeeShopDetails from "@/pages/CoffeeShopDetails";
 import Profile from "@/pages/Profile";
+import Login from "@/pages/Login";
 
 // Layout wrapper for authenticated/app views
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
-      <main className="flex-1 w-full">
-        {children}
-      </main>
+      <main className="flex-1 w-full">{children}</main>
     </div>
   );
 }
@@ -44,27 +42,41 @@ function Router() {
       {/* Root Route - Switch between Landing and Feed based on Auth */}
       <Route path="/">
         {isAuthenticated ? (
-          <AppLayout><Home /></AppLayout>
+          <AppLayout>
+            <Home />
+          </AppLayout>
         ) : (
           <Landing />
         )}
       </Route>
 
       <Route path="/shops">
-        <AppLayout><CoffeeShopsDirectory /></AppLayout>
+        <AppLayout>
+          <CoffeeShopsDirectory />
+        </AppLayout>
       </Route>
 
       <Route path="/shops/:id">
-        <AppLayout><CoffeeShopDetails /></AppLayout>
+        <AppLayout>
+          <CoffeeShopDetails />
+        </AppLayout>
       </Route>
 
       <Route path="/profile">
-        <AppLayout><Profile /></AppLayout>
+        <AppLayout>
+          <Profile />
+        </AppLayout>
+      </Route>
+
+      <Route path="/login">
+        <Login />
       </Route>
 
       {/* Fallback to 404 */}
       <Route>
-        <AppLayout><NotFound /></AppLayout>
+        <AppLayout>
+          <NotFound />
+        </AppLayout>
       </Route>
     </Switch>
   );

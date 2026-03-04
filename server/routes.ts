@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
-import session from "express-session";
+import { setupAuth, registerAuthRoutes, isAuthenticated } from "./auth";
 
 declare global {
   namespace Express {
@@ -13,28 +13,10 @@ declare global {
   }
 }
 
-const setupAuth = (app: Express) => {
-  app.use(
-    session({
-      secret: "local-dev-secret",
-      resave: false,
-      saveUninitialized: false,
-    }),
-  );
-};
-
-const registerAuthRoutes = (app: any) => {};
-
-const isAuthenticated = (req: any, res: any, next: any) => {
-  req.user = { claims: { sub: "local-dev-user" } };
-  next();
-};
-
 export async function registerRoutes(
   httpServer: Server,
   app: Express,
 ): Promise<Server> {
-  // Setup Authentication First
   await setupAuth(app);
   registerAuthRoutes(app);
 
