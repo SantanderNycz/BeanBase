@@ -42,12 +42,14 @@ export interface IStorage extends IAuthStorage {
   }): Promise<any[]>;
   createPost(post: InsertPost & { userId: string }): Promise<any>;
   toggleLikePost(postId: number, userId: string): Promise<boolean>;
+  deletePost(postId: number, userId: string): Promise<void>;
 
   // Comments
   getComments(postId: number): Promise<any[]>;
   createComment(
     comment: InsertComment & { postId: number; userId: string },
   ): Promise<any>;
+  deleteComment(commentId: number, userId: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -232,6 +234,18 @@ export class DatabaseStorage implements IStorage {
       await db.insert(likes).values({ postId, userId });
       return true;
     }
+  }
+
+  async deletePost(postId: number, userId: string): Promise<void> {
+    await db
+      .delete(posts)
+      .where(and(eq(posts.id, postId), eq(posts.userId, userId)));
+  }
+
+  async deleteComment(commentId: number, userId: string): Promise<void> {
+    await db
+      .delete(comments)
+      .where(and(eq(comments.id, commentId), eq(comments.userId, userId)));
   }
 
   // Comments
@@ -536,6 +550,22 @@ export class MemoryStorage implements IStorage {
     }
     this.likesData.push({ postId, userId });
     return true;
+  }
+
+  async deletePost(postId: number, userId: string) {
+    const idx = this.postsData.findIndex(
+      (p) => p.id === postId && p.userId === userId,
+    );
+    if (idx === -1) throw new Error("Post not found");
+    this.postsData.splice(idx, 1);
+  }
+
+  async deleteComment(commentId: number, userId: string) {
+    const idx = this.commentsData.findIndex(
+      (c) => c.id === commentId && c.userId === userId,
+    );
+    if (idx === -1) throw new Error("Comment not found");
+    this.commentsData.splice(idx, 1);
   }
 
   async getComments(postId: number) {

@@ -4,12 +4,13 @@ import { usePosts } from "@/hooks/use-posts";
 import { useAuth } from "@/hooks/use-auth";
 import { PostCard } from "@/components/shared/PostCard";
 import { CreatePostForm } from "@/components/forms/CreatePostForm";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
   DialogTitle,
-  DialogTrigger 
+  DialogDescription,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { redirectToLogin } from "@/lib/auth-utils";
@@ -30,17 +31,20 @@ export default function Home() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
-      
       {/* Header Area */}
       <div className="flex items-center justify-between mb-8 bg-card p-6 rounded-3xl border border-border/50 shadow-sm">
         <div>
-          <h1 className="font-serif text-3xl font-bold text-foreground">Coffee Feed</h1>
-          <p className="text-muted-foreground mt-1 text-sm">See what the community is drinking.</p>
+          <h1 className="font-serif text-3xl font-bold text-foreground">
+            Coffee Feed
+          </h1>
+          <p className="text-muted-foreground mt-1 text-sm">
+            See what the community is drinking.
+          </p>
         </div>
 
         <Dialog open={createOpen} onOpenChange={setCreateOpen}>
           <DialogTrigger asChild>
-            <Button 
+            <Button
               onClick={handleCreateClick}
               className="rounded-full h-12 px-6 shadow-md shadow-primary/20 hover:shadow-lg hover:-translate-y-0.5 transition-all"
             >
@@ -49,7 +53,12 @@ export default function Home() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-xl bg-card border-border/50 p-6">
             <DialogHeader className="mb-4">
-              <DialogTitle className="font-serif text-2xl">Create a Post</DialogTitle>
+              <DialogTitle className="font-serif text-2xl">
+                Create a Post
+              </DialogTitle>
+              <DialogDescription className="sr-only">
+                Share your coffee experience with the community.
+              </DialogDescription>
             </DialogHeader>
             <CreatePostForm onSuccess={() => setCreateOpen(false)} />
           </DialogContent>
@@ -68,14 +77,17 @@ export default function Home() {
             <Coffee className="w-8 h-8 text-muted-foreground" />
           </div>
           <h3 className="font-serif text-xl font-bold mb-2">It's quiet here</h3>
-          <p className="text-muted-foreground mb-6 max-w-sm mx-auto">No one has shared their coffee experience yet. Be the first to break the silence!</p>
+          <p className="text-muted-foreground mb-6 max-w-sm mx-auto">
+            No one has shared their coffee experience yet. Be the first to break
+            the silence!
+          </p>
           <Button onClick={() => setCreateOpen(true)} className="rounded-full">
             <Plus className="w-4 h-4 mr-2" /> Create First Post
           </Button>
         </div>
       ) : (
         <div className="space-y-8 animate-in fade-in duration-700">
-          {posts?.map(post => (
+          {posts?.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
         </div>

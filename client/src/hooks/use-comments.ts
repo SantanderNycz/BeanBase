@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api, buildUrl, type InsertComment } from "@shared/routes";
+import { api, buildUrl } from "@shared/routes";
+import type { InsertComment } from "@shared/schema";
 
 export function useComments(postId: number) {
   return useQuery({
@@ -17,7 +18,7 @@ export function useComments(postId: number) {
 export function useCreateComment(postId: number) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: Omit<InsertComment, 'postId'>) => {
+    mutationFn: async (data: Omit<InsertComment, "postId">) => {
       const validated = api.comments.create.input.parse(data);
       const url = buildUrl(api.comments.create.path, { postId });
       const res = await fetch(url, {
@@ -30,8 +31,9 @@ export function useCreateComment(postId: number) {
       return api.comments.create.responses[201].parse(await res.json());
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.comments.list.path, postId] });
-      // Invalidate posts to update comment count
+      queryClient.invalidateQueries({
+        queryKey: [api.comments.list.path, postId],
+      });
       queryClient.invalidateQueries({ queryKey: [api.posts.list.path] });
     },
   });

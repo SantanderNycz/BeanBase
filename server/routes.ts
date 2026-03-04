@@ -38,6 +38,24 @@ export async function registerRoutes(
   await setupAuth(app);
   registerAuthRoutes(app);
 
+  // Rota de auth mock para desenvolvimento local
+  app.get("/api/auth/user", (req: any, res) => {
+    console.log("AUTH USER ROUTE HIT");
+    res.json({
+      id: "local-dev-user",
+      email: "dev@local.com",
+      firstName: "Dev",
+      lastName: "User",
+      profileImageUrl: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+  });
+
+  app.get("/api/logout", (req, res) => {
+    res.redirect("/");
+  });
+
   // Coffee Shops API
   app.get(api.coffeeShops.list.path, async (req, res) => {
     const userId = (req.user as any)?.claims?.sub;
@@ -141,6 +159,32 @@ export async function registerRoutes(
       return res.status(404).json({ message: "Post not found" });
     }
   });
+
+  app.delete("/api/posts/:id", isAuthenticated, async (req, res) => {
+    const postId = Number(req.params.id);
+    const userId = (req.user as any).claims.sub;
+    try {
+      await storage.deletePost(postId, userId);
+      res.status(204).send();
+    } catch (err) {
+      res.status(404).json({ message: "Post not found" });
+    }
+  });
+
+  app.delete(
+    "/api/posts/:postId/comments/:id",
+    isAuthenticated,
+    async (req, res) => {
+      const commentId = Number(req.params.id);
+      const userId = (req.user as any).claims.sub;
+      try {
+        await storage.deleteComment(commentId, userId);
+        res.status(204).send();
+      } catch {
+        res.status(404).json({ message: "Comment not found" });
+      }
+    },
+  );
 
   // Comments API
   app.get(api.comments.list.path, async (req, res) => {

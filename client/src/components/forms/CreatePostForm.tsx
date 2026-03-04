@@ -29,7 +29,10 @@ import { useToast } from "@/hooks/use-toast";
 const formSchema = z.object({
   coffeeShopId: z.coerce.number().min(1, "Please select a coffee shop"),
   content: z.string().min(3, "Post content must be at least 3 characters"),
-  photos: z.array(z.string().url()).max(4, "Maximum 4 photos allowed").optional(),
+  photos: z
+    .array(z.string().url())
+    .max(4, "Maximum 4 photos allowed")
+    .optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -38,7 +41,7 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
   const { data: shops, isLoading: shopsLoading } = useCoffeeShops();
   const createPost = useCreatePost();
   const { toast } = useToast();
-  
+
   const [photoUrls, setPhotoUrls] = useState<string[]>([]);
   const [currentUrl, setCurrentUrl] = useState("");
 
@@ -55,7 +58,11 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
     try {
       new URL(currentUrl); // basic validation
       if (photoUrls.length >= 4) {
-        toast({ title: "Limit reached", description: "Maximum 4 photos allowed", variant: "destructive" });
+        toast({
+          title: "Limit reached",
+          description: "Maximum 4 photos allowed",
+          variant: "destructive",
+        });
         return;
       }
       const updated = [...photoUrls, currentUrl];
@@ -63,7 +70,11 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
       form.setValue("photos", updated);
       setCurrentUrl("");
     } catch {
-      toast({ title: "Invalid URL", description: "Please enter a valid image URL", variant: "destructive" });
+      toast({
+        title: "Invalid URL",
+        description: "Please enter a valid image URL",
+        variant: "destructive" as const,
+      });
     }
   };
 
@@ -80,14 +91,13 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
         form.reset();
         setPhotoUrls([]);
         onSuccess?.();
-      }
+      },
     });
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        
         <FormField
           control={form.control}
           name="coffeeShopId"
@@ -101,7 +111,7 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {shops?.map(shop => (
+                  {shops?.map((shop) => (
                     <SelectItem key={shop.id} value={shop.id.toString()}>
                       {shop.name}
                     </SelectItem>
@@ -120,10 +130,10 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
             <FormItem>
               <Label>Your thoughts</Label>
               <FormControl>
-                <Textarea 
-                  placeholder="How's the brew? The atmosphere?" 
+                <Textarea
+                  placeholder="How's the brew? The atmosphere?"
                   className="resize-none min-h-[120px] rounded-xl bg-background border-border/50 focus-visible:ring-primary/20"
-                  {...field} 
+                  {...field}
                 />
               </FormControl>
               <FormMessage />
@@ -135,23 +145,23 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
           <Label className="flex items-center gap-2">
             <ImageIcon className="w-4 h-4" /> Photos (up to 4)
           </Label>
-          
+
           <div className="flex gap-2">
-            <Input 
-              placeholder="Paste image URL here..." 
+            <Input
+              placeholder="Paste image URL here..."
               value={currentUrl}
               onChange={(e) => setCurrentUrl(e.target.value)}
               className="rounded-xl bg-background border-border/50 h-11"
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
+                if (e.key === "Enter") {
                   e.preventDefault();
                   handleAddPhoto();
                 }
               }}
               disabled={photoUrls.length >= 4}
             />
-            <Button 
-              type="button" 
+            <Button
+              type="button"
               variant="secondary"
               onClick={handleAddPhoto}
               disabled={!currentUrl || photoUrls.length >= 4}
@@ -160,17 +170,24 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
               Add
             </Button>
           </div>
-          
+
           {photoUrls.length > 0 && (
             <div className="grid grid-cols-4 gap-2 mt-3">
               {photoUrls.map((url, idx) => (
-                <div key={idx} className="relative aspect-square rounded-lg overflow-hidden group border border-border/50 shadow-sm">
-                  <img src={url} alt="Preview" className="w-full h-full object-cover" />
+                <div
+                  key={idx}
+                  className="relative aspect-square rounded-lg overflow-hidden group border border-border/50 shadow-sm"
+                >
+                  <img
+                    src={url}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                  />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <Button 
-                      type="button" 
-                      variant="destructive" 
-                      size="icon" 
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
                       className="h-8 w-8 rounded-full"
                       onClick={() => removePhoto(idx)}
                     >
@@ -183,13 +200,15 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
           )}
         </div>
 
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           className="w-full h-12 rounded-xl font-medium text-base shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all"
           disabled={createPost.isPending}
         >
           {createPost.isPending ? (
-            <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Publishing...</>
+            <>
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Publishing...
+            </>
           ) : (
             "Share Post"
           )}

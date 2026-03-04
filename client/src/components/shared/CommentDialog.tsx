@@ -1,38 +1,61 @@
 import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
-import { Loader2, Send } from "lucide-react";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle 
+import { Loader2, Send, Trash2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { useComments, useCreateComment } from "@/hooks/use-comments";
+import { useAuth } from "@/hooks/use-auth";
+import { useQueryClient } from "@tanstack/react-query";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { api } from "@shared/routes";
 
-export function CommentDialog({ 
-  open, 
-  onOpenChange, 
-  postId 
-}: { 
-  open: boolean; 
-  onOpenChange: (o: boolean) => void; 
+export function CommentDialog({
+  open,
+  onOpenChange,
+  postId,
+}: {
+  open: boolean;
+  onOpenChange: (o: boolean) => void;
   postId: number;
 }) {
   const { data: comments, isLoading } = useComments(postId);
   const createComment = useCreateComment(postId);
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
   const [content, setContent] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!content.trim()) return;
-
-    createComment.mutate({ content: content.trim() }, {
-      onSuccess: () => setContent("")
-    });
+    createComment.mutate(
+      { content: content.trim() },
+      { onSuccess: () => setContent("") },
+    );
+  };
+  const handleDeleteComment = async (commentId: number) => {
+    try {
+      const res = await fetch(`/api/posts/${postId}/comments/${commentId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (res.ok) {
+        // Força refetch imediato em vez de apenas invalidar
+        await queryClient.refetchQueries({
+          queryKey: [api.comments.list.path, postId],
+        });
+        queryClient.invalidateQueries({ queryKey: [api.posts.list.path] });
+      }
+    } catch (err) {
+      console.error("Delete error:", err);
+    }
   };
 
   return (
@@ -40,6 +63,9 @@ export function CommentDialog({
       <DialogContent className="sm:max-w-lg p-0 gap-0 overflow-hidden bg-card border-border/50">
         <DialogHeader className="p-6 pb-4 border-b border-border/40 bg-background/50 backdrop-blur-sm">
           <DialogTitle className="font-serif text-xl">Comments</DialogTitle>
+          <DialogDescription className="sr-only">
+            View and add comments to this post.
+          </DialogDescription>
         </DialogHeader>
 
         <ScrollArea className="max-h-[50vh] p-6 pt-2">
@@ -50,14 +76,18 @@ export function CommentDialog({
           ) : comments?.length === 0 ? (
             <div className="py-10 text-center text-muted-foreground flex flex-col items-center">
               <p>No comments yet.</p>
-              <p className="text-sm mt-1">Be the first to share your thoughts!</p>
+              <p className="text-sm mt-1">
+                Be the first to share your thoughts!
+              </p>
             </div>
           ) : (
             <div className="space-y-6 pt-4">
-              {comments?.map(comment => (
+              {comments?.map((comment) => (
                 <div key={comment.id} className="flex gap-4">
                   <Avatar className="h-8 w-8 shrink-0 border border-primary/10">
-                    <AvatarImage src={comment.author?.profileImageUrl || undefined} />
+                    <AvatarImage
+                      src={comment.author?.profileImageUrl || undefined}
+                    />
                     <AvatarFallback className="bg-secondary text-secondary-foreground text-xs">
                       {comment.author?.firstName?.[0] || "U"}
                     </AvatarFallback>
@@ -67,9 +97,24 @@ export function CommentDialog({
                       <p className="text-sm font-semibold text-foreground">
                         {comment.author?.firstName} {comment.author?.lastName}
                       </p>
-                      <span className="text-[10px] text-muted-foreground font-medium">
-                        {comment.createdAt ? formatDistanceToNow(new Date(comment.createdAt)) : ''}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] text-muted-foreground font-medium">
+                          {comment.createdAt
+                            ? formatDistanceToNow(new Date(comment.createdAt))
+                            : ""}
+                        </span>
+                        {/* Botão apagar — só para o autor */}
+                        {user?.id === comment.userId && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-5 w-5 text-muted-foreground hover:text-destructive"
+                            onClick={() => handleDeleteComment(comment.id)}
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        )}
+                      </div>
                     </div>
                     <p className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap">
                       {comment.content}
@@ -83,21 +128,21 @@ export function CommentDialog({
 
         <div className="p-4 border-t border-border/40 bg-background">
           <form onSubmit={handleSubmit} className="flex items-end gap-3">
-            <Textarea 
+            <Textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Add a comment..."
               className="resize-none min-h-[44px] h-[44px] rounded-2xl bg-secondary/30 border-transparent focus-visible:ring-primary/20 py-3"
               onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
+                if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
                   handleSubmit(e);
                 }
               }}
             />
-            <Button 
-              type="submit" 
-              size="icon" 
+            <Button
+              type="submit"
+              size="icon"
               disabled={!content.trim() || createComment.isPending}
               className="rounded-full shrink-0 h-11 w-11 shadow-sm transition-all hover:scale-105 active:scale-95"
             >
