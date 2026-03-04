@@ -21,7 +21,7 @@ export default function Landing() {
         <Button
           variant="ghost"
           className="font-medium hover:bg-primary/5 hover:text-primary"
-          onClick={() => (window.location.href = "/api/login")}
+          onClick={() => (window.location.href = "/login")}
         >
           Sign In
         </Button>
@@ -51,7 +51,7 @@ export default function Landing() {
             <Button
               size="lg"
               className="h-14 px-8 rounded-full text-base font-semibold shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 transition-all hover:-translate-y-1 w-full sm:w-auto"
-              onClick={() => (window.location.href = "/api/login")}
+              onClick={() => (window.location.href = "/login")}
             >
               Get Started <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
