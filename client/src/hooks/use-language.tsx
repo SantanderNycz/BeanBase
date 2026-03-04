@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 type Language = "pt-PT" | "pt-BR" | "en" | "fr" | "es";
 
@@ -12,66 +18,122 @@ const translations: Translations = {
   feed: {
     "pt-PT": "Feed",
     "pt-BR": "Feed",
-    "en": "Feed",
-    "fr": "Flux",
-    "es": "Feed",
+    en: "Feed",
+    fr: "Flux",
+    es: "Feed",
   },
   discoverShops: {
     "pt-PT": "Descobrir Cafés",
     "pt-BR": "Descobrir Cafés",
-    "en": "Discover Shops",
-    "fr": "Découvrir des Cafés",
-    "es": "Descubrir Cafeterías",
+    en: "Discover Shops",
+    fr: "Découvrir des Cafés",
+    es: "Descubrir Cafeterías",
   },
   profile: {
     "pt-PT": "Perfil",
     "pt-BR": "Perfil",
-    "en": "Profile",
-    "fr": "Profil",
-    "es": "Perfil",
+    en: "Profile",
+    fr: "Profil",
+    es: "Perfil",
   },
   logout: {
     "pt-PT": "Sair",
     "pt-BR": "Sair",
-    "en": "Log out",
-    "fr": "Déconnexion",
-    "es": "Cerrar sesión",
+    en: "Log out",
+    fr: "Déconnexion",
+    es: "Cerrar sesión",
   },
   signIn: {
     "pt-PT": "Entrar",
     "pt-BR": "Entrar",
-    "en": "Sign In",
-    "fr": "Se connecter",
-    "es": "Iniciar sesión",
+    en: "Sign In",
+    fr: "Se connecter",
+    es: "Iniciar sesión",
   },
   language: {
     "pt-PT": "Idioma",
     "pt-BR": "Idioma",
-    "en": "Language",
-    "fr": "Langue",
-    "es": "Idioma",
+    en: "Language",
+    fr: "Langue",
+    es: "Idioma",
   },
   theme: {
     "pt-PT": "Tema",
     "pt-BR": "Tema",
-    "en": "Theme",
-    "fr": "Thème",
-    "es": "Tema",
+    en: "Theme",
+    fr: "Thème",
+    es: "Tema",
   },
   dark: {
     "pt-PT": "Escuro",
     "pt-BR": "Escuro",
-    "en": "Dark",
-    "fr": "Sombre",
-    "es": "Oscuro",
+    en: "Dark",
+    fr: "Sombre",
+    es: "Oscuro",
   },
   light: {
     "pt-PT": "Claro",
     "pt-BR": "Claro",
-    "en": "Light",
-    "fr": "Clair",
-    "es": "Claro",
-  }
+    en: "Light",
+    fr: "Clair",
+    es: "Claro",
+  },
+  coffeeFeed: {
+    "pt-PT": "Feed de Café",
+    "pt-BR": "Feed de Café",
+    en: "Coffee Feed",
+    fr: "Fil Café",
+    es: "Feed de Café",
+  },
+  feedSubtitle: {
+    "pt-PT": "Vê o que a comunidade está a beber.",
+    "pt-BR": "Veja o que a comunidade está bebendo.",
+    en: "See what the community is drinking.",
+    fr: "Voyez ce que la communauté boit.",
+    es: "Ve lo que la comunidad está bebiendo.",
+  },
+  sharePost: {
+    "pt-PT": "Partilhar Post",
+    "pt-BR": "Compartilhar Post",
+    en: "Share Post",
+    fr: "Partager",
+    es: "Compartir",
+  },
+  createPost: {
+    "pt-PT": "Criar Post",
+    "pt-BR": "Criar Post",
+    en: "Create a Post",
+    fr: "Créer un post",
+    es: "Crear post",
+  },
+  brewingFeed: {
+    "pt-PT": "A preparar feed...",
+    "pt-BR": "Carregando feed...",
+    en: "Brewing feed...",
+    fr: "Chargement...",
+    es: "Cargando...",
+  },
+  quietHere: {
+    "pt-PT": "Está silencioso aqui",
+    "pt-BR": "Está silencioso aqui",
+    en: "It's quiet here",
+    fr: "C'est calme ici",
+    es: "Está tranquilo aquí",
+  },
+  noPostsYet: {
+    "pt-PT": "Ninguém partilhou ainda. Sê o primeiro!",
+    "pt-BR": "Ninguém compartilhou ainda. Seja o primeiro!",
+    en: "No one has shared their coffee experience yet. Be the first!",
+    fr: "Personne n'a encore partagé. Soyez le premier!",
+    es: "Nadie ha compartido aún. ¡Sé el primero!",
+  },
+  createFirstPost: {
+    "pt-PT": "Criar Primeiro Post",
+    "pt-BR": "Criar Primeiro Post",
+    en: "Create First Post",
+    fr: "Créer le premier post",
+    es: "Crear primer post",
+  },
 };
 
 interface LanguageContextType {
@@ -80,7 +142,9 @@ interface LanguageContextType {
   t: (key: string) => string;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+const LanguageContext = createContext<LanguageContextType | undefined>(
+  undefined,
+);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>(() => {
@@ -105,6 +169,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
 export function useLanguage() {
   const context = useContext(LanguageContext);
-  if (!context) throw new Error("useLanguage must be used within LanguageProvider");
+  if (!context)
+    throw new Error("useLanguage must be used within LanguageProvider");
   return context;
 }

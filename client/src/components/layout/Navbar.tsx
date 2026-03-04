@@ -37,7 +37,7 @@ export function Navbar() {
               <Coffee className="w-6 h-6 text-primary" />
             </div>
             <span className="font-serif font-bold text-xl text-foreground hidden sm:block">
-              BrewSocial
+              BeanBase
             </span>
           </Link>
 
