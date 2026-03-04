@@ -1,5 +1,5 @@
 import { useParams } from "wouter";
-import { Heart, MapPin, ExternalLink, ArrowLeft } from "lucide-react";
+import { Heart, MapPin, ExternalLink, ArrowLeft, Loader2 } from "lucide-react";
 import { useCoffeeShop, useToggleFavorite } from "@/hooks/use-coffee-shops";
 import { usePosts } from "@/hooks/use-posts";
 import { useAuth } from "@/hooks/use-auth";
@@ -7,31 +7,22 @@ import { PostCard } from "@/components/shared/PostCard";
 import { Button } from "@/components/ui/button";
 import { redirectToLogin } from "@/lib/auth-utils";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/hooks/use-language";
 import { Link } from "wouter";
-import { Loader2 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function CoffeeShopDetails() {
   const queryClient = useQueryClient();
-
-  const handleDelete = async (postId: number) => {
-    await fetch(`/api/posts/${postId}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
-    queryClient.invalidateQueries({ queryKey: ["/api/posts"] });
-  };
   const { id } = useParams<{ id: string }>();
   const shopId = parseInt(id, 10);
-
   const { data: shop, isLoading: shopLoading } = useCoffeeShop(shopId);
   const { data: posts, isLoading: postsLoading } = usePosts({
     coffeeShopId: id,
   });
-
   const { isAuthenticated } = useAuth();
   const toggleFavorite = useToggleFavorite();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleFavorite = () => {
     if (!isAuthenticated) {
@@ -44,7 +35,7 @@ export default function CoffeeShopDetails() {
   if (shopLoading) {
     return (
       <div className="h-screen flex items-center justify-center text-primary animate-pulse">
-        Loading...
+        {t("loading")}
       </div>
     );
   }
@@ -52,19 +43,18 @@ export default function CoffeeShopDetails() {
   if (!shop) {
     return (
       <div className="max-w-2xl mx-auto py-20 text-center">
-        <h2 className="text-2xl font-bold font-serif mb-4">Shop not found</h2>
+        <h2 className="text-2xl font-bold font-serif mb-4">
+          {t("shopNotFound")}
+        </h2>
         <Link href="/shops">
           <Button variant="outline">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Directory
+            <ArrowLeft className="mr-2 h-4 w-4" /> {t("backToDirectory")}
           </Button>
         </Link>
       </div>
     );
   }
 
-  {
-    /* landing page hero scenic coffee shop interior */
-  }
   const defaultBg =
     "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1920&h=600&fit=crop";
 
@@ -78,7 +68,6 @@ export default function CoffeeShopDetails() {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-
         <div className="absolute top-6 left-6">
           <Link href="/shops">
             <Button
@@ -86,7 +75,7 @@ export default function CoffeeShopDetails() {
               size="sm"
               className="bg-background/50 backdrop-blur-md border-transparent hover:bg-background/80 rounded-full"
             >
-              <ArrowLeft className="mr-2 h-4 w-4" /> Directory
+              <ArrowLeft className="mr-2 h-4 w-4" /> {t("directory")}
             </Button>
           </Link>
         </div>
@@ -121,7 +110,7 @@ export default function CoffeeShopDetails() {
                 <Heart
                   className={`w-5 h-5 mr-2 ${shop.isFavorite ? "fill-current" : ""}`}
                 />
-                {shop.isFavorite ? "Saved" : "Favorite"}
+                {shop.isFavorite ? t("saved") : t("favorite")}
               </Button>
               <Button
                 variant="outline"
@@ -134,7 +123,7 @@ export default function CoffeeShopDetails() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <ExternalLink className="w-5 h-5 mr-2" /> Directions
+                  <ExternalLink className="w-5 h-5 mr-2" /> {t("directions")}
                 </a>
               </Button>
             </div>
@@ -145,10 +134,10 @@ export default function CoffeeShopDetails() {
         <div className="space-y-8">
           <div className="flex items-center justify-between border-b border-border/50 pb-4">
             <h2 className="font-serif text-2xl font-bold">
-              Community Photos & Reviews
+              {t("communityReviews")}
             </h2>
             <span className="bg-primary/10 text-primary font-medium px-3 py-1 rounded-full text-sm">
-              {posts?.length || 0} Posts
+              {posts?.length || 0} {t("posts")}
             </span>
           </div>
 
@@ -159,10 +148,10 @@ export default function CoffeeShopDetails() {
           ) : posts?.length === 0 ? (
             <div className="text-center py-16 bg-card rounded-3xl border border-border/50">
               <p className="text-muted-foreground text-lg mb-4">
-                No reviews yet for {shop.name}.
+                {t("noReviewsYet")} {shop.name}.
               </p>
               <Link href="/">
-                <Button variant="outline">Be the first to post</Button>
+                <Button variant="outline">{t("beFirstToPost")}</Button>
               </Link>
             </div>
           ) : (

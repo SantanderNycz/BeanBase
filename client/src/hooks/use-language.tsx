@@ -340,6 +340,17 @@ const translations: Translations = {
     fr: "Café ajouté!",
     es: "¡Cafetería agregada!",
   },
+  loading: { "pt-PT": "A carregar...", "pt-BR": "Carregando...", "en": "Loading...", "fr": "Chargement...", "es": "Cargando..." },
+shopNotFound: { "pt-PT": "Café não encontrado", "pt-BR": "Café não encontrado", "en": "Shop not found", "fr": "Café introuvable", "es": "Cafetería no encontrada" },
+backToDirectory: { "pt-PT": "Voltar ao Directório", "pt-BR": "Voltar ao Diretório", "en": "Back to Directory", "fr": "Retour à l'annuaire", "es": "Volver al directorio" },
+directory: { "pt-PT": "Directório", "pt-BR": "Diretório", "en": "Directory", "fr": "Annuaire", "es": "Directorio" },
+saved: { "pt-PT": "Guardado", "pt-BR": "Salvo", "en": "Saved", "fr": "Sauvegardé", "es": "Guardado" },
+favorite: { "pt-PT": "Favoritar", "pt-BR": "Favoritar", "en": "Favorite", "fr": "Favori", "es": "Favorito" },
+directions: { "pt-PT": "Direções", "pt-BR": "Direções", "en": "Directions", "fr": "Itinéraire", "es": "Direcciones" },
+communityReviews: { "pt-PT": "Fotos & Avaliações da Comunidade", "pt-BR": "Fotos & Avaliações da Comunidade", "en": "Community Photos & Reviews", "fr": "Photos & Avis de la communauté", "es": "Fotos y reseñas de la comunidad" },
+posts: { "pt-PT": "Posts", "pt-BR": "Posts", "en": "Posts", "fr": "Publications", "es": "Publicaciones" },
+noReviewsYet: { "pt-PT": "Ainda sem avaliações para", "pt-BR": "Ainda sem avaliações para", "en": "No reviews yet for", "fr": "Pas encore d'avis pour", "es": "Sin reseñas aún para" },
+beFirstToPost: { "pt-PT": "Sê o primeiro a publicar", "pt-BR": "Seja o primeiro a publicar", "en": "Be the first to post", "fr": "Soyez le premier à publier", "es": "Sé el primero en publicar" },
 };
 
 interface LanguageContextType {
