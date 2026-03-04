@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/hooks/use-language";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -28,45 +29,39 @@ type FormValues = z.infer<typeof formSchema>;
 export function CreateShopForm({ onSuccess }: { onSuccess?: () => void }) {
   const createShop = useCreateCoffeeShop();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      address: "",
-      description: "",
-      imageUrl: "",
-    },
+    defaultValues: { name: "", address: "", description: "", imageUrl: "" },
   });
 
   const onSubmit = (data: FormValues) => {
-    // Convert empty string to undefined for the API
-    const payload = {
-      ...data,
-      imageUrl: data.imageUrl || undefined
-    };
-
+    const payload = { ...data, imageUrl: data.imageUrl || undefined };
     createShop.mutate(payload, {
       onSuccess: () => {
-        toast({ title: "Coffee Shop added!" });
+        toast({ title: t("shopAdded") });
         form.reset();
         onSuccess?.();
-      }
+      },
     });
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-        
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <Label>Shop Name</Label>
+              <Label>{t("shopName")}</Label>
               <FormControl>
-                <Input placeholder="e.g. The Daily Grind" className="h-11 rounded-xl bg-background border-border/50" {...field} />
+                <Input
+                  placeholder={t("shopNamePlaceholder")}
+                  className="h-11 rounded-xl bg-background border-border/50"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -78,9 +73,13 @@ export function CreateShopForm({ onSuccess }: { onSuccess?: () => void }) {
           name="address"
           render={({ field }) => (
             <FormItem>
-              <Label>Location</Label>
+              <Label>{t("location")}</Label>
               <FormControl>
-                <Input placeholder="Full street address" className="h-11 rounded-xl bg-background border-border/50" {...field} />
+                <Input
+                  placeholder={t("fullAddress")}
+                  className="h-11 rounded-xl bg-background border-border/50"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -92,12 +91,12 @@ export function CreateShopForm({ onSuccess }: { onSuccess?: () => void }) {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <Label>Description</Label>
+              <Label>{t("description")}</Label>
               <FormControl>
-                <Textarea 
-                  placeholder="What makes this place special? Vibe, coffee beans, seating..." 
+                <Textarea
+                  placeholder={t("shopDescPlaceholder")}
                   className="resize-none min-h-[100px] rounded-xl bg-background border-border/50"
-                  {...field} 
+                  {...field}
                 />
               </FormControl>
               <FormMessage />
@@ -110,24 +109,33 @@ export function CreateShopForm({ onSuccess }: { onSuccess?: () => void }) {
           name="imageUrl"
           render={({ field }) => (
             <FormItem>
-              <Label>Cover Image URL (Optional)</Label>
+              <Label>{t("coverImageUrl")}</Label>
               <FormControl>
-                <Input placeholder="https://..." className="h-11 rounded-xl bg-background border-border/50" {...field} />
+                <Input
+                  placeholder="https://..."
+                  className="h-11 rounded-xl bg-background border-border/50"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           className="w-full h-12 rounded-xl mt-4 font-medium shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-0.5 transition-all"
           disabled={createShop.isPending}
         >
           {createShop.isPending ? (
-            <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Adding Shop...</>
+            <>
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />{" "}
+              {t("addingShop")}
+            </>
           ) : (
-            <><Store className="mr-2 h-5 w-5" /> Add Coffee Shop</>
+            <>
+              <Store className="mr-2 h-5 w-5" /> {t("addCoffeeShop")}
+            </>
           )}
         </Button>
       </form>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Loader2, Plus, X, Image as ImageIcon } from "lucide-react";
+import { Loader2, X, Image as ImageIcon } from "lucide-react";
 import { useCreatePost } from "@/hooks/use-posts";
 import { useCoffeeShops } from "@/hooks/use-coffee-shops";
 import { Button } from "@/components/ui/button";
@@ -24,8 +24,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/hooks/use-language";
 
-// Schema matching the backend requirements
 const formSchema = z.object({
   coffeeShopId: z.coerce.number().min(1, "Please select a coffee shop"),
   content: z.string().min(3, "Post content must be at least 3 characters"),
@@ -41,27 +41,24 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
   const { data: shops, isLoading: shopsLoading } = useCoffeeShops();
   const createPost = useCreatePost();
   const { toast } = useToast();
-
+  const { t } = useLanguage();
   const [photoUrls, setPhotoUrls] = useState<string[]>([]);
   const [currentUrl, setCurrentUrl] = useState("");
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      content: "",
-      photos: [],
-    },
+    defaultValues: { content: "", photos: [] },
   });
 
   const handleAddPhoto = () => {
     if (!currentUrl.trim()) return;
     try {
-      new URL(currentUrl); // basic validation
+      new URL(currentUrl);
       if (photoUrls.length >= 4) {
         toast({
-          title: "Limit reached",
-          description: "Maximum 4 photos allowed",
-          variant: "destructive",
+          title: t("limitReached"),
+          description: t("maxPhotos"),
+          variant: "destructive" as const,
         });
         return;
       }
@@ -71,8 +68,8 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
       setCurrentUrl("");
     } catch {
       toast({
-        title: "Invalid URL",
-        description: "Please enter a valid image URL",
+        title: t("invalidUrl"),
+        description: t("invalidUrlDesc"),
         variant: "destructive" as const,
       });
     }
@@ -87,7 +84,7 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
   const onSubmit = (data: FormValues) => {
     createPost.mutate(data, {
       onSuccess: () => {
-        toast({ title: "Post created!" });
+        toast({ title: t("postCreated") });
         form.reset();
         setPhotoUrls([]);
         onSuccess?.();
@@ -103,11 +100,11 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
           name="coffeeShopId"
           render={({ field }) => (
             <FormItem>
-              <Label>Where are you?</Label>
+              <Label>{t("whereAreYou")}</Label>
               <Select onValueChange={field.onChange} disabled={shopsLoading}>
                 <FormControl>
                   <SelectTrigger className="bg-background rounded-xl h-12 border-border/50 focus:ring-primary/20">
-                    <SelectValue placeholder="Select a coffee shop" />
+                    <SelectValue placeholder={t("selectCoffeeShop")} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -128,10 +125,10 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
           name="content"
           render={({ field }) => (
             <FormItem>
-              <Label>Your thoughts</Label>
+              <Label>{t("yourThoughts")}</Label>
               <FormControl>
                 <Textarea
-                  placeholder="How's the brew? The atmosphere?"
+                  placeholder={t("howsTheBrew")}
                   className="resize-none min-h-[120px] rounded-xl bg-background border-border/50 focus-visible:ring-primary/20"
                   {...field}
                 />
@@ -143,12 +140,11 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
 
         <div className="space-y-3">
           <Label className="flex items-center gap-2">
-            <ImageIcon className="w-4 h-4" /> Photos (up to 4)
+            <ImageIcon className="w-4 h-4" /> {t("photos")}
           </Label>
-
           <div className="flex gap-2">
             <Input
-              placeholder="Paste image URL here..."
+              placeholder={t("pasteImageUrl")}
               value={currentUrl}
               onChange={(e) => setCurrentUrl(e.target.value)}
               className="rounded-xl bg-background border-border/50 h-11"
@@ -167,10 +163,9 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
               disabled={!currentUrl || photoUrls.length >= 4}
               className="rounded-xl px-4 h-11"
             >
-              Add
+              {t("add")}
             </Button>
           </div>
-
           {photoUrls.length > 0 && (
             <div className="grid grid-cols-4 gap-2 mt-3">
               {photoUrls.map((url, idx) => (
@@ -202,15 +197,16 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
 
         <Button
           type="submit"
-          className="w-full h-12 rounded-xl font-medium text-base shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all"
+          className="w-full h-12 rounded-xl font-medium text-base shadow-lg shadow-primary/20 hover:shadow-xl transition-all"
           disabled={createPost.isPending}
         >
           {createPost.isPending ? (
             <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Publishing...
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />{" "}
+              {t("publishing")}
             </>
           ) : (
-            "Share Post"
+            t("sharePost")
           )}
         </Button>
       </form>
