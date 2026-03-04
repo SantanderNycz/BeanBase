@@ -1,5 +1,13 @@
 import { Link, useLocation } from "wouter";
-import { Coffee, User as UserIcon, LogOut, Search, Languages, Moon, Sun } from "lucide-react";
+import {
+  Coffee,
+  User as UserIcon,
+  LogOut,
+  Search,
+  Languages,
+  Moon,
+  Sun,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { useTheme } from "@/hooks/use-theme";
@@ -30,9 +38,11 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 w-full glass-panel border-b border-border/40 bg-background/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group cursor-pointer">
+          <Link
+            href="/"
+            className="flex items-center gap-2 group cursor-pointer"
+          >
             <div className="bg-primary/10 p-2 rounded-xl group-hover:bg-primary/20 transition-colors">
               <Coffee className="w-6 h-6 text-primary" />
             </div>
@@ -43,17 +53,17 @@ export function Navbar() {
 
           {/* Center Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            <Link 
-              href="/" 
-              className={`font-medium text-sm transition-colors hover:text-primary ${isActive('/') ? 'text-primary' : 'text-muted-foreground'}`}
+            <Link
+              href="/"
+              className={`font-medium text-sm transition-colors hover:text-primary ${isActive("/") ? "text-primary" : "text-muted-foreground"}`}
             >
-              {t('feed')}
+              {t("feed")}
             </Link>
-            <Link 
-              href="/shops" 
-              className={`font-medium text-sm transition-colors hover:text-primary ${isActive('/shops') ? 'text-primary' : 'text-muted-foreground'}`}
+            <Link
+              href="/shops"
+              className={`font-medium text-sm transition-colors hover:text-primary ${isActive("/shops") ? "text-primary" : "text-muted-foreground"}`}
             >
-              {t('discoverShops')}
+              {t("discoverShops")}
             </Link>
           </div>
 
@@ -65,22 +75,38 @@ export function Navbar() {
               onClick={() => setTheme(theme === "light" ? "dark" : "light")}
               className="rounded-full text-muted-foreground hover:text-primary hover:bg-primary/5"
             >
-              {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+              {theme === "light" ? (
+                <Moon className="w-5 h-5" />
+              ) : (
+                <Sun className="w-5 h-5" />
+              )}
             </Button>
 
             {isAuthenticated ? (
               <>
-                <Button variant="ghost" size="icon" className="hidden sm:inline-flex rounded-full text-muted-foreground hover:text-primary hover:bg-primary/5">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hidden sm:inline-flex rounded-full text-muted-foreground hover:text-primary hover:bg-primary/5"
+                >
                   <Search className="w-5 h-5" />
                 </Button>
-                
+
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <Button
+                      variant="ghost"
+                      className="relative h-10 w-10 rounded-full"
+                    >
                       <Avatar className="h-10 w-10 border-2 border-primary/20 transition-all hover:border-primary">
-                        <AvatarImage src={user?.profileImageUrl || undefined} alt={user?.firstName || 'User'} />
+                        <AvatarImage
+                          src={user?.profileImageUrl || undefined}
+                          alt={user?.firstName || "User"}
+                        />
                         <AvatarFallback className="bg-primary/10 text-primary font-medium">
-                          {user?.firstName?.[0] || <UserIcon className="w-4 h-4" />}
+                          {user?.firstName?.[0] || (
+                            <UserIcon className="w-4 h-4" />
+                          )}
                         </AvatarFallback>
                       </Avatar>
                     </Button>
@@ -88,43 +114,62 @@ export function Navbar() {
                   <DropdownMenuContent className="w-56" align="end" forceMount>
                     <DropdownMenuLabel className="font-normal">
                       <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{user?.firstName} {user?.lastName}</p>
+                        <p className="text-sm font-medium leading-none">
+                          {user?.firstName} {user?.lastName}
+                        </p>
                         <p className="text-xs leading-none text-muted-foreground">
                           {user?.email}
                         </p>
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    
+
                     <DropdownMenuSub>
                       <DropdownMenuSubTrigger>
                         <Languages className="mr-2 h-4 w-4" />
-                        <span>{t('language')}</span>
+                        <span>{t("language")}</span>
                       </DropdownMenuSubTrigger>
                       <DropdownMenuPortal>
                         <DropdownMenuSubContent>
-                          <DropdownMenuItem onClick={() => setLanguage("pt-BR")}>Português (Brasil)</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => setLanguage("pt-PT")}>Português (Portugal)</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => setLanguage("en")}>English</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => setLanguage("fr")}>Français</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => setLanguage("es")}>Español</DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => setLanguage("pt-BR")}
+                          >
+                            Português (Brasil)
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => setLanguage("pt-PT")}
+                          >
+                            Português (Portugal)
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => setLanguage("en")}>
+                            English
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => setLanguage("fr")}>
+                            Français
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => setLanguage("es")}>
+                            Español
+                          </DropdownMenuItem>
                         </DropdownMenuSubContent>
                       </DropdownMenuPortal>
                     </DropdownMenuSub>
 
                     <DropdownMenuItem asChild>
-                      <Link href="/profile" className="cursor-pointer flex w-full items-center">
+                      <Link
+                        href="/profile"
+                        className="cursor-pointer flex w-full items-center"
+                      >
                         <UserIcon className="mr-2 h-4 w-4" />
-                        <span>{t('profile')}</span>
+                        <span>{t("profile")}</span>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer"
                       onClick={() => logout()}
                     >
                       <LogOut className="mr-2 h-4 w-4" />
-                      <span>{t('logout')}</span>
+                      <span>{t("logout")}</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -133,24 +178,37 @@ export function Navbar() {
               <div className="flex items-center gap-2">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="rounded-full">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-full"
+                    >
                       <Languages className="w-5 h-5" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => setLanguage("pt-BR")}>Português (Brasil)</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setLanguage("pt-PT")}>Português (Portugal)</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setLanguage("en")}>English</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setLanguage("fr")}>Français</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setLanguage("es")}>Español</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setLanguage("pt-BR")}>
+                      Português (Brasil)
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setLanguage("pt-PT")}>
+                      Português (Portugal)
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setLanguage("en")}>
+                      English
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setLanguage("fr")}>
+                      Français
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setLanguage("es")}>
+                      Español
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                <Button 
-                  onClick={() => window.location.href = '/api/login'}
-                  className="rounded-full px-6 font-medium shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all hover:-translate-y-0.5"
-                >
-                  {t('signIn')}
-                </Button>
+                <Link href="/login">
+                  <Button className="rounded-full px-6 font-medium shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all hover:-translate-y-0.5">
+                    {t("signIn")}
+                  </Button>
+                </Link>
               </div>
             )}
           </div>
