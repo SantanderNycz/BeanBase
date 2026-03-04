@@ -19,6 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import { CommentDialog } from "./CommentDialog";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { api } from "@shared/routes";
 
 type PostResponse = Post & {
   author?: User;
@@ -53,11 +54,13 @@ export function PostCard({ post }: { post: PostResponse }) {
   };
 
   const handleDelete = async () => {
-    await fetch(`/api/posts/${post.id}`, {
+    const res = await fetch(`/api/posts/${post.id}`, {
       method: "DELETE",
       credentials: "include",
     });
-    queryClient.invalidateQueries({ queryKey: ["/api/posts"] });
+    if (res.ok) {
+      await queryClient.refetchQueries({ queryKey: [api.posts.list.path] });
+    }
   };
 
   const hasPhotos = post.photos && post.photos.length > 0;
@@ -101,7 +104,7 @@ export function PostCard({ post }: { post: PostResponse }) {
           )}
 
           {/* Botão de eliminar — só aparece para o autor */}
-          {user?.id === post.author?.id && (
+          {user?.id === post.userId && (
             <Button
               variant="ghost"
               size="sm"
