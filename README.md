@@ -2,7 +2,9 @@
 
 **BeanBase** é uma rede social para amantes de café — partilha as tuas experiências, descobre novos cafés e conecta-te com a comunidade.
 
-![BeanBase](https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&h=400&fit=crop)
+<!-- ![BeanBase](https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&h=400&fit=crop) -->
+
+![BeanBase](https://drive.google.com/file/d/1PPCfd5CKom1gdqe-twFiCGVV7_wTt7Rh/view?usp=sharing)
 
 ---
 
