@@ -6,12 +6,12 @@ async function fetchUser(): Promise<User | null> {
     credentials: "include",
   });
 
-  if (response.status === 401) {
+  if (response.status === 401 || response.status === 404) {
     return null;
   }
 
   if (!response.ok) {
-    throw new Error(`${response.status}: ${response.statusText}`);
+    return null;
   }
 
   return response.json();
