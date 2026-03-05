@@ -7,8 +7,7 @@ export default function Landing() {
       {/* Decorative background blob */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/10 rounded-full blur-[120px] pointer-events-none" />
-
-      {/* Navigation */}
+      {/* Navigation
       <nav className="relative z-10 w-full p-6 flex justify-between items-center max-w-7xl mx-auto">
         <div className="flex items-center gap-2">
           <div className="bg-primary/10 p-2.5 rounded-xl">
@@ -25,8 +24,7 @@ export default function Landing() {
         >
           Sign In
         </Button>
-      </nav>
-
+      </nav> */}
       {/* Hero Section */}
       <main className="flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-6 relative z-10 -mt-10">
         <div className="max-w-3xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
