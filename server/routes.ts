@@ -250,7 +250,7 @@ async function seedDatabase() {
         "A friendly neighborhood cafe with comfortable couches and live music on weekends.",
       address: "789 Park Ave, Anytown",
       imageUrl:
-        "https://unsplash.com/pt-br/fotografias/mesa-e-cadeiras-de-madeira-marrom-xhKG01FN2uk?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-xhKG01FN2uk?auto=format&fit=crop&q=80&w=800",
     });
   }
 }
