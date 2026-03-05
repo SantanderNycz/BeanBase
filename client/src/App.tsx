@@ -15,6 +15,7 @@ import CoffeeShopsDirectory from "@/pages/CoffeeShopsDirectory";
 import CoffeeShopDetails from "@/pages/CoffeeShopDetails";
 import Profile from "@/pages/Profile";
 import Login from "@/pages/Login";
+import PostDetails from "@/pages/PostDetails";
 
 // Layout wrapper for authenticated/app views
 function AppLayout({ children }: { children: React.ReactNode }) {
@@ -58,6 +59,12 @@ function Router() {
       <Route path="/shops/:id">
         <AppLayout>
           <CoffeeShopDetails />
+        </AppLayout>
+      </Route>
+
+      <Route path="/posts/:id">
+        <AppLayout>
+          <PostDetails />
         </AppLayout>
       </Route>
 

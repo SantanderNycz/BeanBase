@@ -63,6 +63,34 @@ export interface IStorage extends IAuthStorage {
 }
 
 export class DatabaseStorage implements IStorage {
+  async getPost(postId: number) {
+    const [post] = await db.select().from(posts).where(eq(posts.id, postId));
+    if (!post) return undefined;
+    const [author] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, post.userId));
+    const [shop] = await db
+      .select()
+      .from(coffeeShops)
+      .where(eq(coffeeShops.id, post.coffeeShopId));
+    const postLikes = await db
+      .select()
+      .from(likes)
+      .where(eq(likes.postId, post.id));
+    const postComments = await db
+      .select()
+      .from(comments)
+      .where(eq(comments.postId, post.id));
+    return {
+      ...post,
+      author,
+      coffeeShop: shop,
+      likesCount: postLikes.length,
+      commentsCount: postComments.length,
+    };
+  }
+
   // notifications
   async getNotifications(userId: string) {
     return db
@@ -80,10 +108,6 @@ export class DatabaseStorage implements IStorage {
   }
   async createNotification(data: InsertNotif) {
     await db.insert(notifications).values(data);
-  }
-  async getPost(postId: number) {
-    const [post] = await db.select().from(posts).where(eq(posts.id, postId));
-    return post;
   }
 
   // Auth methods delegated to authStorage

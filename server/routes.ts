@@ -194,6 +194,14 @@ export async function registerRoutes(
     res.status(204).send();
   });
 
+  app.get("/api/posts/:id", async (req, res) => {
+    const postId = Number(req.params.id);
+    const userId = (req.user as any)?.id;
+    const post = await storage.getPost(postId);
+    if (!post) return res.status(404).json({ message: "Post not found" });
+    res.json(post);
+  });
+
   seedDatabase().catch(console.error);
 
   return httpServer;

@@ -123,7 +123,11 @@ export function PostCard({ post }: { post: PostResponse }) {
           <Carousel className="w-full">
             <CarouselContent>
               {post.photos!.map((photoUrl: string, idx: number) => (
-                <CarouselItem key={idx}>
+                <CarouselItem
+                  key={idx}
+                  onClick={() => (window.location.href = `/posts/${post.id}`)}
+                  className="cursor-pointer"
+                >
                   <div className="aspect-[4/3] sm:aspect-video w-full overflow-hidden">
                     <img
                       src={photoUrl}
@@ -144,12 +148,13 @@ export function PostCard({ post }: { post: PostResponse }) {
           </Carousel>
         </div>
       )}
-
       {/* Content */}
       <div className="p-5 pt-4">
-        <p className="text-foreground text-sm md:text-base leading-relaxed whitespace-pre-wrap">
-          {post.content}
-        </p>
+        <Link href={`/posts/${post.id}`}>
+          <p className="text-foreground text-sm md:text-base leading-relaxed whitespace-pre-wrap cursor-pointer hover:text-primary transition-colors">
+            {post.content}
+          </p>
+        </Link>
       </div>
 
       {/* Actions */}

@@ -681,6 +681,13 @@ const translations: Translations = {
     fr: "quelqu'un a commenté votre post",
     es: "alguien comentó en tu post",
   },
+  postNotFound: {
+    "pt-PT": "Post não encontrado",
+    "pt-BR": "Post não encontrado",
+    en: "Post not found",
+    fr: "Publication introuvable",
+    es: "Publicación no encontrada",
+  },
 };
 
 interface LanguageContextType {
