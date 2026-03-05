@@ -16,11 +16,11 @@ interface Translations {
 
 const translations: Translations = {
   feed: {
-    "pt-PT": "Feed",
-    "pt-BR": "Feed",
-    en: "Feed",
-    fr: "Flux",
-    es: "Feed",
+    "pt-PT": "Coffeed",
+    "pt-BR": "Coffeed",
+    en: "Coffeed",
+    fr: "Coffeed",
+    es: "Coffeed",
   },
   discoverShops: {
     "pt-PT": "Descobrir Cafés",
@@ -687,6 +687,20 @@ const translations: Translations = {
     en: "Post not found",
     fr: "Publication introuvable",
     es: "Publicación no encontrada",
+  },
+  searchPlaceholder: {
+    "pt-PT": "Pesquisar cafés e posts...",
+    "pt-BR": "Pesquisar cafés e posts...",
+    en: "Search shops and posts...",
+    fr: "Rechercher cafés et posts...",
+    es: "Buscar cafeterías y posts...",
+  },
+  noResults: {
+    "pt-PT": "Sem resultados",
+    "pt-BR": "Sem resultados",
+    en: "No results found",
+    fr: "Aucun résultat",
+    es: "Sin resultados",
   },
 };
 
