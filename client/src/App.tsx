@@ -46,10 +46,11 @@ function Router() {
             <Home />
           </AppLayout>
         ) : (
-          <Landing />
+          <AppLayout>
+            <Landing />
+          </AppLayout>
         )}
       </Route>
-
       <Route path="/shops">
         <AppLayout>
           <CoffeeShopsDirectory />
