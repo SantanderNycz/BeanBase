@@ -4,7 +4,7 @@
 
 <!-- ![BeanBase](https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&h=400&fit=crop) -->
 
-![BeanBase](https://drive.google.com/file/d/1PPCfd5CKom1gdqe-twFiCGVV7_wTt7Rh/view?usp=sharing)
+![BeanBase](https://drive.google.com/uc?export=view&id=1PPCfd5CKom1gdqe-twFiCGVV7_wTt7Rh)
 
 ---
 
