@@ -1,4 +1,7 @@
 import type { User } from "@shared/models/auth";
+import { users } from "@shared/models/auth";
+import { eq } from "drizzle-orm";
+import { db } from "../db";
 
 export interface IAuthStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -18,7 +21,6 @@ class MemoryAuthStorage implements IAuthStorage {
   }
 
   async upsertUser(userData: any): Promise<User> {
-    // Se não tem ID, gera um
     const id = userData.id || crypto.randomUUID();
     const existing = this.users.get(id);
     const user = {
@@ -33,4 +35,36 @@ class MemoryAuthStorage implements IAuthStorage {
   }
 }
 
-export const authStorage = new MemoryAuthStorage();
+class DatabaseAuthStorage implements IAuthStorage {
+  async getUser(id: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user;
+  }
+
+  async upsertUser(userData: any): Promise<User> {
+    const existing = await this.getUser(userData.id);
+    if (existing) {
+      const [updated] = await db
+        .update(users)
+        .set({ ...userData, updatedAt: new Date() })
+        .where(eq(users.id, userData.id))
+        .returning();
+      return updated;
+    }
+    const id = userData.id || crypto.randomUUID();
+    const [created] = await db
+      .insert(users)
+      .values({ ...userData, id, createdAt: new Date(), updatedAt: new Date() })
+      .returning();
+    return created;
+  }
+}
+
+export const authStorage: IAuthStorage = process.env.DATABASE_URL
+  ? new DatabaseAuthStorage()
+  : new MemoryAuthStorage();
