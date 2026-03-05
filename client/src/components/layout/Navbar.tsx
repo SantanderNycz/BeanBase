@@ -25,6 +25,11 @@ import {
   DropdownMenuSubContent,
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
+import { Bell } from "lucide-react";
+import {
+  useNotifications,
+  useMarkNotificationsRead,
+} from "@/hooks/use-notifications";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -33,6 +38,9 @@ export function Navbar() {
   const { language, setLanguage, t } = useLanguage();
 
   const isActive = (path: string) => location === path;
+  const { data: notifications } = useNotifications();
+  const markRead = useMarkNotificationsRead();
+  const unreadCount = notifications?.filter((n: any) => !n.read).length || 0;
 
   return (
     <nav className="sticky top-0 z-50 w-full glass-panel border-b border-border/40 bg-background/80 backdrop-blur-md">
@@ -98,6 +106,53 @@ export function Navbar() {
                       variant="ghost"
                       className="relative h-10 w-10 rounded-full"
                     >
+                      <DropdownMenu
+                        onOpenChange={(open) => {
+                          if (open && unreadCount > 0) markRead.mutate();
+                        }}
+                      >
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="relative rounded-full"
+                          >
+                            <Bell className="w-5 h-5" />
+                            {unreadCount > 0 && (
+                              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                                {unreadCount > 9 ? "9+" : unreadCount}
+                              </span>
+                            )}
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-80">
+                          <DropdownMenuLabel>
+                            {t("notifications")}
+                          </DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          {notifications?.length === 0 ? (
+                            <div className="py-6 text-center text-sm text-muted-foreground">
+                              {t("noNotifications")}
+                            </div>
+                          ) : (
+                            notifications?.slice(0, 10).map((n: any) => (
+                              <DropdownMenuItem
+                                key={n.id}
+                                className={`flex flex-col items-start gap-1 p-3 ${!n.read ? "bg-primary/5" : ""}`}
+                              >
+                                <span className="text-sm">
+                                  {n.type === "like"
+                                    ? `❤️ ${t("notifLike")}`
+                                    : `💬 ${t("notifComment")}`}
+                                </span>
+                                <span className="text-xs text-muted-foreground">
+                                  {new Date(n.createdAt).toLocaleDateString()}
+                                </span>
+                              </DropdownMenuItem>
+                            ))
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                       <Avatar className="h-10 w-10 border-2 border-primary/20 transition-all hover:border-primary">
                         <AvatarImage
                           src={user?.profileImageUrl || undefined}

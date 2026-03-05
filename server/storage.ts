@@ -16,8 +16,18 @@ import {
 import { db } from "./db";
 import { eq, and, desc, inArray, sql } from "drizzle-orm";
 import { IAuthStorage, authStorage } from "./auth";
+import {
+  notifications,
+  type InsertNotification as InsertNotif,
+} from "@shared/models/notifications";
 
 export interface IStorage extends IAuthStorage {
+  // notifications
+  getNotifications(userId: string): Promise<any[]>;
+  markNotificationsRead(userId: string): Promise<void>;
+  createNotification(data: InsertNotif): Promise<void>;
+  getPost(postId: number): Promise<Post | undefined>;
+
   // Coffee Shops
   getCoffeeShops(
     userId?: string,
@@ -53,6 +63,29 @@ export interface IStorage extends IAuthStorage {
 }
 
 export class DatabaseStorage implements IStorage {
+  // notifications
+  async getNotifications(userId: string) {
+    return db
+      .select()
+      .from(notifications)
+      .where(eq(notifications.userId, userId))
+      .orderBy(desc(notifications.createdAt))
+      .limit(20);
+  }
+  async markNotificationsRead(userId: string) {
+    await db
+      .update(notifications)
+      .set({ read: true })
+      .where(eq(notifications.userId, userId));
+  }
+  async createNotification(data: InsertNotif) {
+    await db.insert(notifications).values(data);
+  }
+  async getPost(postId: number) {
+    const [post] = await db.select().from(posts).where(eq(posts.id, postId));
+    return post;
+  }
+
   // Auth methods delegated to authStorage
   async getUser(id: string): Promise<User | undefined> {
     return authStorage.getUser(id);
@@ -294,6 +327,35 @@ export class MemoryStorage implements IStorage {
   private favoritesData: any[] = [];
   private usersData: any[] = [];
   private nextId = 1;
+
+  // notifications
+  private notificationsData: any[] = [];
+
+  async getNotifications(userId: string) {
+    return this.notificationsData
+      .filter((n) => n.userId === userId)
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime(),
+      )
+      .slice(0, 20);
+  }
+  async markNotificationsRead(userId: string) {
+    this.notificationsData = this.notificationsData.map((n) =>
+      n.userId === userId ? { ...n, read: true } : n,
+    );
+  }
+  async createNotification(data: InsertNotif) {
+    this.notificationsData.push({
+      ...data,
+      id: crypto.randomUUID(),
+      createdAt: new Date(),
+      read: false,
+    });
+  }
+  async getPost(postId: number) {
+    return this.postsData.find((p) => p.id === postId);
+  }
 
   async getUser(id: string) {
     return this.usersData.find((u) => u.id === id);

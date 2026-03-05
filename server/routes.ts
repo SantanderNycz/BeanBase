@@ -104,6 +104,17 @@ export async function registerRoutes(
     const postId = Number(req.params.id);
     try {
       const isLiked = await storage.toggleLikePost(postId, userId);
+      if (isLiked) {
+        const post = await storage.getPost(postId);
+        if (post && post.userId !== userId) {
+          await storage.createNotification({
+            userId: post.userId,
+            actorId: userId,
+            type: "like",
+            postId: String(postId),
+          });
+        }
+      }
       res.json({ isLiked });
     } catch (err) {
       return res.status(404).json({ message: "Post not found" });
@@ -149,6 +160,15 @@ export async function registerRoutes(
       const userId = (req.user as any).id;
       const input = api.comments.create.input.parse(req.body);
       const comment = await storage.createComment({ ...input, postId, userId });
+      const post = await storage.getPost(postId);
+      if (post && post.userId !== userId) {
+        await storage.createNotification({
+          userId: post.userId,
+          actorId: userId,
+          type: "comment",
+          postId: String(postId),
+        });
+      }
       res.status(201).json(comment);
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -159,6 +179,19 @@ export async function registerRoutes(
       }
       throw err;
     }
+  });
+
+  // Rotas de notificações:
+  app.get("/api/notifications", isAuthenticated, async (req, res) => {
+    const userId = (req.user as any).id;
+    const notifs = await storage.getNotifications(userId);
+    res.json(notifs);
+  });
+
+  app.post("/api/notifications/read", isAuthenticated, async (req, res) => {
+    const userId = (req.user as any).id;
+    await storage.markNotificationsRead(userId);
+    res.status(204).send();
   });
 
   seedDatabase().catch(console.error);

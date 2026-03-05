@@ -7,38 +7,46 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, Settings, User as UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/hooks/use-language";
 
 export default function Profile() {
   const { user, isLoading: authLoading } = useAuth();
-  
-  // Get user's own posts
-  const { data: posts, isLoading: postsLoading } = usePosts({ userId: user?.id });
-  
-  // We don't have a specific endpoint for user's favorite shops, 
-  // so we filter the list endpoint client-side for demonstration.
-  // In a real app, you'd add ?favoritesOnly=true to the backend.
-  const { data: allShops, isLoading: shopsLoading } = useCoffeeShops();
-  const favoriteShops = allShops?.filter(s => s.isFavorite) || [];
 
-  if (authLoading) return <div className="h-screen flex items-center justify-center"><Loader2 className="animate-spin text-primary h-8 w-8" /></div>;
+  // Get user's own posts
+  const { data: posts, isLoading: postsLoading } = usePosts({
+    userId: user?.id,
+  });
+
+  const { data: allShops, isLoading: shopsLoading } = useCoffeeShops();
+  const favoriteShops = allShops?.filter((s) => s.isFavorite) || [];
+
+  const {t} = useLanguage();
+
+  if (authLoading)
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <Loader2 className="animate-spin text-primary h-8 w-8" />
+      </div>
+    );
 
   if (!user) {
     return (
       <div className="max-w-md mx-auto mt-20 text-center p-8 bg-card rounded-3xl border border-border">
-        <h2 className="text-2xl font-serif font-bold mb-4">Not Signed In</h2>
-        <p className="text-muted-foreground mb-6">You need to sign in to view your profile.</p>
-        <Button onClick={() => window.location.href = '/api/login'} size="lg">Sign In</Button>
+        <h2 className="text-2xl font-serif font-bold mb-4">t("notSignedIn")</h2>
+        <p className="text-muted-foreground mb-6">t("notSignedInDesc")</p>
+        <Button onClick={() => (window.location.href = "/login")} size="lg">
+          {t("signIn")}
+        </Button>
       </div>
     );
   }
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      
       {/* Profile Header */}
       <div className="bg-card rounded-3xl p-8 border border-border/50 shadow-sm flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-32 bg-secondary/50" />
-        
+
         <Avatar className="h-32 w-32 border-4 border-background shadow-xl mt-8 sm:mt-10 relative z-10 bg-background">
           <AvatarImage src={user.profileImageUrl || undefined} />
           <AvatarFallback className="text-4xl bg-primary/10 text-primary font-serif">
@@ -55,18 +63,22 @@ export default function Profile() {
               <p className="text-muted-foreground">{user.email}</p>
             </div>
             <Button variant="outline" className="rounded-full">
-              <Settings className="w-4 h-4 mr-2" /> Edit Profile
+              <Settings className="w-4 h-4 mr-2" /> t("editProfile")
             </Button>
           </div>
-          
+
           <div className="flex items-center justify-center sm:justify-start gap-6 mt-6 pt-6 border-t border-border/40">
             <div className="text-center">
-              <p className="text-2xl font-bold text-foreground">{posts?.length || 0}</p>
-              <p className="text-sm text-muted-foreground">Posts</p>
+              <p className="text-2xl font-bold text-foreground">
+                {posts?.length || 0}
+              </p>
+              <p className="text-sm text-muted-foreground">t("posts")</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-foreground">{favoriteShops.length || 0}</p>
-              <p className="text-sm text-muted-foreground">Saved Shops</p>
+              <p className="text-2xl font-bold text-foreground">
+                {favoriteShops.length || 0}
+              </p>
+              <p className="text-sm text-muted-foreground">t("savedShops")</p>
             </div>
           </div>
         </div>
@@ -76,37 +88,50 @@ export default function Profile() {
       <div className="mt-10">
         <Tabs defaultValue="posts" className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 bg-secondary/50 rounded-full p-1 h-14">
-            <TabsTrigger value="posts" className="rounded-full text-base">My Posts</TabsTrigger>
-            <TabsTrigger value="favorites" className="rounded-full text-base">Saved Shops</TabsTrigger>
+            <TabsTrigger value="posts" className="rounded-full text-base">
+              t("myPosts")
+            </TabsTrigger>
+            <TabsTrigger value="favorites" className="rounded-full text-base">
+              t("savedShops")
+            </TabsTrigger>
           </TabsList>
-          
+
           <div className="mt-8">
             <TabsContent value="posts" className="focus-visible:outline-none">
               {postsLoading ? (
-                <div className="py-10 text-center text-primary"><Loader2 className="animate-spin h-8 w-8 mx-auto" /></div>
+                <div className="py-10 text-center text-primary">
+                  <Loader2 className="animate-spin h-8 w-8 mx-auto" />
+                </div>
               ) : posts?.length === 0 ? (
                 <div className="text-center py-20 bg-card rounded-2xl border border-border/50">
-                  <p className="text-muted-foreground">You haven't shared any experiences yet.</p>
+                  <p className="text-muted-foreground">t("noPostsProfile")</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {posts?.map(post => (
+                  {posts?.map((post) => (
                     <PostCard key={post.id} post={post} />
                   ))}
                 </div>
               )}
             </TabsContent>
 
-            <TabsContent value="favorites" className="focus-visible:outline-none">
+            <TabsContent
+              value="favorites"
+              className="focus-visible:outline-none"
+            >
               {shopsLoading ? (
-                <div className="py-10 text-center text-primary"><Loader2 className="animate-spin h-8 w-8 mx-auto" /></div>
+                <div className="py-10 text-center text-primary">
+                  <Loader2 className="animate-spin h-8 w-8 mx-auto" />
+                </div>
               ) : favoriteShops.length === 0 ? (
                 <div className="text-center py-20 bg-card rounded-2xl border border-border/50">
-                  <p className="text-muted-foreground">You haven't saved any coffee shops yet.</p>
+                  <p className="text-muted-foreground">
+                    t("noFavoritesProfile")
+                  </p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {favoriteShops.map(shop => (
+                  {favoriteShops.map((shop) => (
                     <CoffeeShopCard key={shop.id} shop={shop} />
                   ))}
                 </div>
