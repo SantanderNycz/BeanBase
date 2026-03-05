@@ -702,6 +702,27 @@ const translations: Translations = {
     fr: "Aucun résultat",
     es: "Sin resultados",
   },
+  profileUpdated: {
+    "pt-PT": "Perfil atualizado!",
+    "pt-BR": "Perfil atualizado!",
+    en: "Profile updated!",
+    fr: "Profil mis à jour!",
+    es: "¡Perfil actualizado!",
+  },
+  profilePhoto: {
+    "pt-PT": "URL da foto de perfil",
+    "pt-BR": "URL da foto de perfil",
+    en: "Profile photo URL",
+    fr: "URL de la photo de profil",
+    es: "URL de la foto de perfil",
+  },
+  saveChanges: {
+    "pt-PT": "Guardar alterações",
+    "pt-BR": "Salvar alterações",
+    en: "Save changes",
+    fr: "Enregistrer",
+    es: "Guardar cambios",
+  },
 };
 
 interface LanguageContextType {

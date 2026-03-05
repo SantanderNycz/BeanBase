@@ -3,7 +3,12 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
-import { setupAuth, registerAuthRoutes, isAuthenticated } from "./auth";
+import {
+  setupAuth,
+  registerAuthRoutes,
+  isAuthenticated,
+  authStorage,
+} from "./auth";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -200,6 +205,20 @@ export async function registerRoutes(
     const post = await storage.getPost(postId);
     if (!post) return res.status(404).json({ message: "Post not found" });
     res.json(post);
+  });
+
+  // Profile
+  app.patch("/api/auth/profile", isAuthenticated, async (req, res) => {
+    const userId = (req.user as any).id;
+    const { firstName, lastName, profileImageUrl } = req.body;
+    const user = await authStorage.upsertUser({
+      id: userId,
+      firstName,
+      lastName,
+      profileImageUrl,
+      updatedAt: new Date(),
+    });
+    res.json(user);
   });
 
   seedDatabase().catch(console.error);
