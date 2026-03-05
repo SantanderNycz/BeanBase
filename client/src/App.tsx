@@ -46,9 +46,7 @@ function Router() {
             <Home />
           </AppLayout>
         ) : (
-          <AppLayout>
-            <Landing />
-          </AppLayout>
+          <Landing />
         )}
       </Route>
       <Route path="/shops">

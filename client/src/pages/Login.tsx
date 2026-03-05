@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { Coffee } from "lucide-react";
+import { Navbar } from "@/components/layout/Navbar";
 
 export default function Login() {
   const [, navigate] = useLocation();
@@ -55,6 +56,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <Navbar />
       <div className="w-full max-w-md bg-card rounded-3xl border border-border/50 shadow-xl p-8">
         <div className="flex flex-col items-center mb-8">
           <div className="bg-primary/10 p-4 rounded-full mb-4">
