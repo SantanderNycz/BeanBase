@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "./use-auth";
 
 export function useNotifications() {
+  const { isAuthenticated } = useAuth();
   return useQuery({
     queryKey: ["/api/notifications"],
     queryFn: async () => {
@@ -8,10 +10,10 @@ export function useNotifications() {
       if (!res.ok) return [];
       return res.json();
     },
-    refetchInterval: 30000, // atualiza a cada 30s
+    enabled: isAuthenticated,
+    refetchInterval: 30000,
   });
 }
-
 export function useMarkNotificationsRead() {
   const queryClient = useQueryClient();
   return useMutation({
