@@ -29,6 +29,8 @@ export interface IStorage extends IAuthStorage {
   getPost(postId: number): Promise<Post | undefined>;
 
   // Coffee Shops
+  deleteCoffeeShop(shopId: number, userId: string): Promise<void>;
+
   getCoffeeShops(
     userId?: string,
   ): Promise<
@@ -119,6 +121,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Coffee Shops
+  async deleteCoffeeShop(shopId: number, userId: string) {
+    await db
+      .delete(coffeeShops)
+      .where(and(eq(coffeeShops.id, shopId), eq(coffeeShops.userId, userId)));
+  }
+
   async getCoffeeShops(userId?: string) {
     const shops = await db.select().from(coffeeShops);
 
@@ -424,6 +432,14 @@ export class MemoryStorage implements IStorage {
     const newShop = { ...shop, id: this.nextId++ };
     this.shops.push(newShop);
     return newShop as CoffeeShop;
+  }
+
+  async deleteCoffeeShop(shopId: number, userId: string) {
+    const idx = this.shops.findIndex(
+      (s) => s.id === shopId && s.userId === userId,
+    );
+    if (idx === -1) throw new Error("Shop not found");
+    this.shops.splice(idx, 1);
   }
 
   async toggleFavoriteCoffeeShop(shopId: number, userId: string) {

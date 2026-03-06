@@ -46,7 +46,8 @@ export async function registerRoutes(
   app.post(api.coffeeShops.create.path, isAuthenticated, async (req, res) => {
     try {
       const input = api.coffeeShops.create.input.parse(req.body);
-      const shop = await storage.createCoffeeShop(input);
+      const userId = (req.user as any).id;
+      const shop = await storage.createCoffeeShop({ ...input, userId });
       res.status(201).json(shop);
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -73,6 +74,17 @@ export async function registerRoutes(
       res.json({ isFavorite });
     },
   );
+
+  app.delete("/api/coffee-shops/:id", isAuthenticated, async (req, res) => {
+    const shopId = Number(req.params.id);
+    const userId = (req.user as any).id;
+    try {
+      await storage.deleteCoffeeShop(shopId, userId);
+      res.status(204).send();
+    } catch {
+      res.status(404).json({ message: "Coffee shop not found" });
+    }
+  });
 
   // Posts API
   app.get(api.posts.list.path, async (req, res) => {
