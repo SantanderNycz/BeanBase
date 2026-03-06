@@ -1,5 +1,4 @@
 import { useParams } from "wouter";
-import { Heart, MapPin, ExternalLink, ArrowLeft, Loader2 } from "lucide-react";
 import { useCoffeeShop, useToggleFavorite } from "@/hooks/use-coffee-shops";
 import { usePosts } from "@/hooks/use-posts";
 import { useAuth } from "@/hooks/use-auth";
@@ -10,6 +9,15 @@ import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 import { Link } from "wouter";
 import { useQueryClient } from "@tanstack/react-query";
+import {
+  Heart,
+  MapPin,
+  ExternalLink,
+  ArrowLeft,
+  Loader2,
+  Trash2,
+} from "lucide-react";
+import { useLocation } from "wouter";
 
 export default function CoffeeShopDetails() {
   const queryClient = useQueryClient();
@@ -23,6 +31,8 @@ export default function CoffeeShopDetails() {
   const toggleFavorite = useToggleFavorite();
   const { toast } = useToast();
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const [, navigate] = useLocation();
 
   const handleFavorite = () => {
     if (!isAuthenticated) {
@@ -30,6 +40,14 @@ export default function CoffeeShopDetails() {
       return;
     }
     toggleFavorite.mutate(shopId);
+  };
+
+  const handleDelete = async () => {
+    const res = await fetch(`/api/coffee-shops/${shopId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (res.ok) navigate("/shops");
   };
 
   if (shopLoading) {
@@ -125,7 +143,17 @@ export default function CoffeeShopDetails() {
                 >
                   <ExternalLink className="w-5 h-5 mr-2" /> {t("directions")}
                 </a>
-              </Button>
+              </Button>{" "}
+              {user?.id === shop.userId && (
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-[160px] rounded-xl h-14 text-destructive border-destructive/30 hover:bg-destructive/10"
+                  onClick={handleDelete}
+                >
+                  <Trash2 className="w-5 h-5 mr-2" /> {t("delete")}
+                </Button>
+              )}
             </div>
           </div>
         </div>

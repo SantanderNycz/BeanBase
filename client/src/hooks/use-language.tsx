@@ -744,6 +744,13 @@ const translations: Translations = {
     fr: "Échec du téléchargement",
     es: "Error al subir imagen",
   },
+  delete: {
+    "pt-PT": "Apagar",
+    "pt-BR": "Apagar",
+    en: "Delete",
+    fr: "Supprimer",
+    es: "Eliminar",
+  },
 };
 
 interface LanguageContextType {
