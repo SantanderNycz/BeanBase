@@ -286,7 +286,7 @@ async function seedDatabase() {
         "A friendly neighborhood cafe with comfortable couches and live music on weekends.",
       address: "789 Park Ave, Anytown",
       imageUrl:
-        "https://images.pexels.com/photos/1998920/pexels-photo-1998920.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/683039/pexels-photo-683039.jpeg?auto=compress&cs=tinysrgb&w=800",
     });
   }
 }
