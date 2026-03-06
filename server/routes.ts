@@ -9,6 +9,10 @@ import {
   isAuthenticated,
   authStorage,
 } from "./auth";
+import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 export async function registerRoutes(
   httpServer: Server,
@@ -16,6 +20,12 @@ export async function registerRoutes(
 ): Promise<Server> {
   await setupAuth(app);
   registerAuthRoutes(app);
+
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
 
   // Coffee Shops API
   app.get(api.coffeeShops.list.path, async (req, res) => {
@@ -221,6 +231,32 @@ export async function registerRoutes(
     res.json(user);
   });
 
+  app.post(
+    "/api/upload",
+    isAuthenticated,
+    upload.single("image"),
+    async (req, res) => {
+      try {
+        if (!req.file)
+          return res.status(400).json({ message: "No file uploaded" });
+        const result = await new Promise<any>((resolve, reject) => {
+          cloudinary.uploader
+            .upload_stream(
+              {
+                folder: "beanbase",
+                transformation: [{ width: 800, crop: "limit" }],
+              },
+              (err, result) => (err ? reject(err) : resolve(result)),
+            )
+            .end(req.file!.buffer);
+        });
+        res.json({ url: result.secure_url });
+      } catch (err) {
+        res.status(500).json({ message: "Upload failed" });
+      }
+    },
+  );
+
   seedDatabase().catch(console.error);
 
   return httpServer;
@@ -235,14 +271,14 @@ async function seedDatabase() {
         "A cozy spot with the best artisan roasts in town. Perfect for working or relaxing.",
       address: "123 Main St, Anytown",
       imageUrl:
-        "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=800",
+        "https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800",
     });
     await storage.createCoffeeShop({
       name: "Espresso Express",
       description: "Quick, delicious coffee and pastries for people on the go.",
       address: "456 Market St, Anytown",
       imageUrl:
-        "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=800",
+        "https://images.pexels.com/photos/1813466/pexels-photo-1813466.jpeg?auto=compress&cs=tinysrgb&w=800",
     });
     await storage.createCoffeeShop({
       name: "Central Perk",
@@ -250,7 +286,7 @@ async function seedDatabase() {
         "A friendly neighborhood cafe with comfortable couches and live music on weekends.",
       address: "789 Park Ave, Anytown",
       imageUrl:
-        "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&q=80&w=800",
+        "https://images.pexels.com/photos/1998920/pexels-photo-1998920.jpeg?auto=compress&cs=tinysrgb&w=800",
     });
   }
 }

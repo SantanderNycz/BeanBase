@@ -723,6 +723,27 @@ const translations: Translations = {
     fr: "Enregistrer",
     es: "Guardar cambios",
   },
+  uploadImage: {
+    "pt-PT": "Clica para fazer upload de imagem",
+    "pt-BR": "Clique para fazer upload de imagem",
+    en: "Click to upload image",
+    fr: "Cliquez pour télécharger une image",
+    es: "Haz clic para subir una imagen",
+  },
+  uploadSuccess: {
+    "pt-PT": "Imagem carregada com sucesso!",
+    "pt-BR": "Imagem carregada com sucesso!",
+    en: "Image uploaded successfully!",
+    fr: "Image téléchargée avec succès!",
+    es: "¡Imagen subida con éxito!",
+  },
+  uploadError: {
+    "pt-PT": "Erro ao carregar imagem",
+    "pt-BR": "Erro ao carregar imagem",
+    en: "Failed to upload image",
+    fr: "Échec du téléchargement",
+    es: "Error al subir imagen",
+  },
 };
 
 interface LanguageContextType {
