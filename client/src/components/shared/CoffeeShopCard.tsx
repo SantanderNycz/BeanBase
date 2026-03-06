@@ -84,7 +84,7 @@ export function CoffeeShopCard({ shop }: { shop: CoffeeShopResponse }) {
           )}
 
           {/* Stats badge bottom left */}
-          <div className="absolute bottom-3 right-14 flex items-center gap-1.5 text-xs font-medium text-white bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full">
+          <div className="absolute bottom-3 right-3 flex items-center gap-1.5 text-xs font-medium text-white bg-black/10 backdrop-blur-sm px-2.5 py-1 rounded-full">
             <Heart className="w-3.5 h-3.5 fill-current" />
             <span>{shop.favoritesCount || 0}</span>
           </div>
