@@ -27,6 +27,15 @@ export async function registerRoutes(
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
 
+  //teste
+  app.get("/api/debug/env", (req, res) => {
+  res.json({
+    hasGoogleId: !!process.env.GOOGLE_CLIENT_ID,
+    hasGoogleSecret: !!process.env.GOOGLE_CLIENT_SECRET,
+    googleIdPrefix: process.env.GOOGLE_CLIENT_ID?.substring(0, 10),
+  });
+});
+
   // Coffee Shops API
   app.get(api.coffeeShops.list.path, async (req, res) => {
     const userId = (req.user as any)?.id;
