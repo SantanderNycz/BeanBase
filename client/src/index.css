@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,73 +6,78 @@
 
 @layer base {
   :root {
+    color-scheme: light;
     /* Warm Coffee Aesthetic - Light Mode */
     --background: 40 33% 96%; /* Cream/Off-white #F8F5F0 */
     --foreground: 25 40% 15%; /* Deep Brown #362820 */
-    
+
     --card: 40 20% 99%; /* Crisp white-cream */
     --card-foreground: 25 40% 15%;
-    
+
     --popover: 40 20% 99%;
     --popover-foreground: 25 40% 15%;
-    
+
     --primary: 25 35% 35%; /* Rich Coffee #785946 */
     --primary-foreground: 40 33% 96%;
-    
+
     --secondary: 30 25% 90%; /* Light Taupe #E8E1DA */
     --secondary-foreground: 25 40% 20%;
-    
+
     --muted: 30 20% 92%; /* Warm Gray */
     --muted-foreground: 25 20% 45%;
-    
+
     --accent: 28 45% 55%; /* Caramel Accent #B57A54 */
     --accent-foreground: 40 33% 96%;
-    
+
     --destructive: 0 60% 50%;
     --destructive-foreground: 40 33% 96%;
-    
+
     --border: 30 20% 85%; /* Soft Taupe Border */
     --input: 30 20% 85%;
     --ring: 25 35% 35%;
 
     --radius: 0.75rem;
 
-    --font-sans: 'Outfit', sans-serif;
-    --font-serif: 'Playfair Display', serif;
+    --font-sans: "Outfit", sans-serif;
+    --font-serif: "Playfair Display", serif;
 
     /* Subtle warm shadows */
     --shadow-sm: 0 1px 2px 0 rgb(54 40 32 / 0.05);
-    --shadow: 0 1px 3px 0 rgb(54 40 32 / 0.1), 0 1px 2px -1px rgb(54 40 32 / 0.1);
-    --shadow-md: 0 4px 6px -1px rgb(54 40 32 / 0.08), 0 2px 4px -2px rgb(54 40 32 / 0.08);
-    --shadow-lg: 0 10px 15px -3px rgb(54 40 32 / 0.08), 0 4px 6px -4px rgb(54 40 32 / 0.08);
+    --shadow:
+      0 1px 3px 0 rgb(54 40 32 / 0.1), 0 1px 2px -1px rgb(54 40 32 / 0.1);
+    --shadow-md:
+      0 4px 6px -1px rgb(54 40 32 / 0.08), 0 2px 4px -2px rgb(54 40 32 / 0.08);
+    --shadow-lg:
+      0 10px 15px -3px rgb(54 40 32 / 0.08), 0 4px 6px -4px rgb(54 40 32 / 0.08);
   }
 
   .dark {
+    color-scheme: dark;
     /* Dark Mode - Late Night Cafe */
     --background: 25 30% 10%; /* Very dark espresso #211914 */
     --foreground: 40 25% 90%; /* Light cream */
-    
+
     --card: 25 25% 14%;
     --card-foreground: 40 25% 90%;
-    
+
     --popover: 25 25% 14%;
     --popover-foreground: 40 25% 90%;
-    
+
     --primary: 28 45% 60%; /* Lighter caramel for dark mode */
     --primary-foreground: 25 30% 10%;
-    
+
     --secondary: 25 20% 20%;
     --secondary-foreground: 40 25% 90%;
-    
+
     --muted: 25 20% 20%;
     --muted-foreground: 30 15% 65%;
-    
+
     --accent: 25 40% 45%;
     --accent-foreground: 40 25% 90%;
-    
+
     --destructive: 0 50% 40%;
     --destructive-foreground: 40 25% 90%;
-    
+
     --border: 25 20% 25%;
     --input: 25 20% 25%;
     --ring: 28 45% 60%;
@@ -89,10 +94,19 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    background-image: radial-gradient(circle at center, rgba(120, 89, 70, 0.03) 0%, transparent 100%);
+    background-image: radial-gradient(
+      circle at center,
+      rgba(120, 89, 70, 0.03) 0%,
+      transparent 100%
+    );
     background-attachment: fixed;
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-serif tracking-tight text-foreground;
   }
 }
