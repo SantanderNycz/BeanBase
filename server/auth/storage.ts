@@ -47,8 +47,10 @@ class DatabaseAuthStorage implements IAuthStorage {
   }
 
   async upsertUser(userData: any): Promise<User> {
-    const existing = await this.getUser(userData.id);
-    if (existing) {
+    // Encontrar por ID
+    const existingById = userData.id ? await this.getUser(userData.id) : null;
+
+    if (existingById) {
       const [updated] = await db
         .update(users)
         .set({ ...userData, updatedAt: new Date() })
@@ -56,6 +58,21 @@ class DatabaseAuthStorage implements IAuthStorage {
         .returning();
       return updated;
     }
+
+    // Se não encontrou por ID, tenta por email
+    if (userData.email) {
+      const existingByEmail = await this.getUserByEmail(userData.email);
+      if (existingByEmail) {
+        const [updated] = await db
+          .update(users)
+          .set({ ...userData, id: existingByEmail.id, updatedAt: new Date() })
+          .where(eq(users.id, existingByEmail.id))
+          .returning();
+        return updated;
+      }
+    }
+
+    // Cria novo utilizador
     const id = userData.id || crypto.randomUUID();
     const [created] = await db
       .insert(users)
