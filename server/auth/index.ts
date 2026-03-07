@@ -2,10 +2,12 @@ import type { Express, RequestHandler } from "express";
 import session from "express-session";
 import MemoryStore from "memorystore";
 import passport from "passport";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
 import { authStorage } from "./storage";
+import pkg from "passport-google-oauth20";
+
+const { Strategy: GoogleStrategy } = pkg;
 
 export { authStorage };
 export type { IAuthStorage } from "./storage";
