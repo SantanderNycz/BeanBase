@@ -1,6 +1,15 @@
 import { z } from 'zod';
 import { insertCoffeeShopSchema, insertPostSchema, insertCommentSchema } from './schema';
 
+export type {
+  InsertCoffeeShop,
+  CoffeeShopResponse,
+  InsertPost,
+  PostResponse,
+  InsertComment,
+  CommentResponse,
+} from './schema';
+
 export const errorSchemas = {
   validation: z.object({ message: z.string(), field: z.string().optional() }),
   notFound: z.object({ message: z.string() }),

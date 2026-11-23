@@ -42,7 +42,7 @@ export async function setupAuth(app: Express) {
           clientSecret: process.env.GOOGLE_CLIENT_SECRET,
           callbackURL:
             process.env.NODE_ENV === "production"
-              ? "https://beanbase.up.railway.app/api/auth/google/callback"
+              ? `${process.env.APP_URL}/api/auth/google/callback`
               : "http://localhost:5000/api/auth/google/callback",
         },
         async (accessToken, refreshToken, profile, done) => {
@@ -157,6 +157,9 @@ export function registerAuthRoutes(app: Express) {
   app.post(
     "/api/auth/login",
     passport.authenticate("local", { failWithError: true }),
+    (req: any, res: any) => {
+      res.json(req.user);
+    },
     (err: any, req: any, res: any, next: any) => {
       res.status(401).json({ message: err.message || "Credenciais inválidas" });
     },
