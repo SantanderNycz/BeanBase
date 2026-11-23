@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/use-auth";
 import { useTheme } from "@/hooks/use-theme";
-import { useLanguage } from "@/hooks/use-language";
+import { useLanguage, LANGUAGES } from "@/hooks/use-language";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -334,25 +334,19 @@ export function Navbar() {
                       </DropdownMenuSubTrigger>
                       <DropdownMenuPortal>
                         <DropdownMenuSubContent>
-                          <DropdownMenuItem
-                            onClick={() => setLanguage("pt-BR")}
-                          >
-                            Português (Brasil)
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => setLanguage("pt-PT")}
-                          >
-                            Português (Portugal)
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => setLanguage("en")}>
-                            English
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => setLanguage("fr")}>
-                            Français
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => setLanguage("es")}>
-                            Español
-                          </DropdownMenuItem>
+                          {LANGUAGES.map((l) => (
+                            <DropdownMenuItem
+                              key={l.code}
+                              onClick={() => setLanguage(l.code)}
+                              className={
+                                language === l.code
+                                  ? "font-medium text-primary"
+                                  : ""
+                              }
+                            >
+                              {l.label}
+                            </DropdownMenuItem>
+                          ))}
                         </DropdownMenuSubContent>
                       </DropdownMenuPortal>
                     </DropdownMenuSub>
@@ -389,21 +383,17 @@ export function Navbar() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => setLanguage("pt-BR")}>
-                      Português (Brasil)
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setLanguage("pt-PT")}>
-                      Português (Portugal)
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setLanguage("en")}>
-                      English
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setLanguage("fr")}>
-                      Français
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setLanguage("es")}>
-                      Español
-                    </DropdownMenuItem>
+                    {LANGUAGES.map((l) => (
+                      <DropdownMenuItem
+                        key={l.code}
+                        onClick={() => setLanguage(l.code)}
+                        className={
+                          language === l.code ? "font-medium text-primary" : ""
+                        }
+                      >
+                        {l.label}
+                      </DropdownMenuItem>
+                    ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
                 <Link href="/login">

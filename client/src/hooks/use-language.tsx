@@ -6,7 +6,16 @@ import {
   ReactNode,
 } from "react";
 
-type Language = "pt-PT" | "pt-BR" | "en" | "fr" | "es";
+export type Language = "pt-PT" | "pt-BR" | "en" | "fr" | "es" | "zh";
+
+export const LANGUAGES: { code: Language; label: string }[] = [
+  { code: "pt-PT", label: "Português (Portugal)" },
+  { code: "pt-BR", label: "Português (Brasil)" },
+  { code: "en", label: "English" },
+  { code: "es", label: "Español" },
+  { code: "fr", label: "Français" },
+  { code: "zh", label: "中文" },
+];
 
 interface Translations {
   [key: string]: {
@@ -21,6 +30,7 @@ const translations: Translations = {
     en: "Coffeed",
     fr: "Coffeed",
     es: "Coffeed",
+    zh: "咖啡动态",
   },
   discoverShops: {
     "pt-BR": "Descobrir Cafés",
@@ -28,6 +38,7 @@ const translations: Translations = {
     en: "Discover Shops",
     fr: "Découvrir des Cafés",
     es: "Descubrir Cafeterías",
+    zh: "发现咖啡馆",
   },
   profile: {
     "pt-BR": "Perfil",
@@ -35,6 +46,7 @@ const translations: Translations = {
     en: "Profile",
     fr: "Profil",
     es: "Perfil",
+    zh: "个人资料",
   },
   logout: {
     "pt-BR": "Sair",
@@ -42,6 +54,7 @@ const translations: Translations = {
     en: "Log out",
     fr: "Déconnexion",
     es: "Cerrar sesión",
+    zh: "退出登录",
   },
   signIn: {
     "pt-BR": "Entrar",
@@ -49,6 +62,7 @@ const translations: Translations = {
     en: "Sign In",
     fr: "Se connecter",
     es: "Iniciar sesión",
+    zh: "登录",
   },
   language: {
     "pt-BR": "Idioma",
@@ -56,6 +70,7 @@ const translations: Translations = {
     en: "Language",
     fr: "Langue",
     es: "Idioma",
+    zh: "语言",
   },
   theme: {
     "pt-BR": "Tema",
@@ -63,6 +78,7 @@ const translations: Translations = {
     en: "Theme",
     fr: "Thème",
     es: "Tema",
+    zh: "主题",
   },
   dark: {
     "pt-BR": "Escuro",
@@ -70,6 +86,7 @@ const translations: Translations = {
     en: "Dark",
     fr: "Sombre",
     es: "Oscuro",
+    zh: "深色",
   },
   light: {
     "pt-BR": "Claro",
@@ -77,6 +94,7 @@ const translations: Translations = {
     en: "Light",
     fr: "Clair",
     es: "Claro",
+    zh: "浅色",
   },
   coffeeFeed: {
     "pt-BR": "Feed de Café",
@@ -84,6 +102,7 @@ const translations: Translations = {
     en: "Coffee Feed",
     fr: "Fil Café",
     es: "Feed de Café",
+    zh: "咖啡动态",
   },
   feedSubtitle: {
     "pt-BR": "Veja o que a comunidade está bebendo.",
@@ -91,6 +110,7 @@ const translations: Translations = {
     en: "See what the community is drinking.",
     fr: "Voyez ce que la communauté boit.",
     es: "Ve lo que la comunidad está bebiendo.",
+    zh: "看看大家都在喝什么。",
   },
   sharePost: {
     "pt-BR": "Compartilhar Post",
@@ -98,6 +118,7 @@ const translations: Translations = {
     en: "Share Post",
     fr: "Partager",
     es: "Compartir",
+    zh: "分享动态",
   },
   createPost: {
     "pt-BR": "Criar Post",
@@ -105,6 +126,7 @@ const translations: Translations = {
     en: "Create a Post",
     fr: "Créer un post",
     es: "Crear post",
+    zh: "发布动态",
   },
   brewingFeed: {
     "pt-BR": "Carregando feed...",
@@ -112,6 +134,7 @@ const translations: Translations = {
     en: "Brewing feed...",
     fr: "Chargement...",
     es: "Cargando...",
+    zh: "正在冲泡动态...",
   },
   quietHere: {
     "pt-BR": "Está silencioso aqui",
@@ -119,6 +142,7 @@ const translations: Translations = {
     en: "It's quiet here",
     fr: "C'est calme ici",
     es: "Está tranquilo aquí",
+    zh: "这里还很安静",
   },
   noPostsYet: {
     "pt-BR": "Ninguém compartilhou ainda. Seja o primeiro!",
@@ -126,6 +150,7 @@ const translations: Translations = {
     en: "No one has shared their coffee experience yet. Be the first!",
     fr: "Personne n'a encore partagé. Soyez le premier!",
     es: "Nadie ha compartido aún. ¡Sé el primero!",
+    zh: "还没有人分享咖啡体验。来当第一个吧！",
   },
   createFirstPost: {
     "pt-BR": "Criar Primeiro Post",
@@ -133,6 +158,7 @@ const translations: Translations = {
     en: "Create First Post",
     fr: "Créer le premier post",
     es: "Crear primer post",
+    zh: "发布第一条动态",
   },
   // Shops Directory
   coffeeShops: {
@@ -141,6 +167,7 @@ const translations: Translations = {
     en: "Coffee Shops",
     fr: "Cafés",
     es: "Cafeterías",
+    zh: "咖啡馆",
   },
   discoverShopsSubtitle: {
     "pt-BR": "Descubra e favorite cafés locais.",
@@ -148,6 +175,7 @@ const translations: Translations = {
     en: "Discover and favorite local roasters and cafes.",
     fr: "Découvrez et ajoutez des cafés locaux.",
     es: "Descubre y marca cafeterías locales.",
+    zh: "发现并收藏本地咖啡馆。",
   },
   addShop: {
     "pt-BR": "Adicionar Café",
@@ -155,6 +183,7 @@ const translations: Translations = {
     en: "Add Shop",
     fr: "Ajouter un café",
     es: "Agregar cafetería",
+    zh: "添加咖啡馆",
   },
   addNewCoffeeShop: {
     "pt-BR": "Adicionar novo Café",
@@ -162,6 +191,7 @@ const translations: Translations = {
     en: "Add a new Coffee Shop",
     fr: "Ajouter un nouveau café",
     es: "Agregar nueva cafetería",
+    zh: "添加新咖啡馆",
   },
   noShopsFound: {
     "pt-BR": "Nenhum café encontrado",
@@ -169,6 +199,7 @@ const translations: Translations = {
     en: "No shops found",
     fr: "Aucun café trouvé",
     es: "No se encontraron cafeterías",
+    zh: "未找到咖啡馆",
   },
   noShopsSubtitle: {
     "pt-BR": "Ajude a comunidade adicionando seus favoritos.",
@@ -176,6 +207,7 @@ const translations: Translations = {
     en: "Help the community by adding your local favorites.",
     fr: "Aidez la communauté en ajoutant vos favoris.",
     es: "Ayuda a la comunidad añadiendo tus favoritos.",
+    zh: "添加你喜爱的咖啡馆，帮助社区成长。",
   },
   // CreatePostForm
   whereAreYou: {
@@ -184,6 +216,7 @@ const translations: Translations = {
     en: "Where are you?",
     fr: "Où êtes-vous?",
     es: "¿Dónde estás?",
+    zh: "你在哪里？",
   },
   selectCoffeeShop: {
     "pt-BR": "Selecione um café",
@@ -191,6 +224,7 @@ const translations: Translations = {
     en: "Select a coffee shop",
     fr: "Sélectionnez un café",
     es: "Selecciona una cafetería",
+    zh: "选择一家咖啡馆",
   },
   yourThoughts: {
     "pt-BR": "Seus pensamentos",
@@ -198,6 +232,7 @@ const translations: Translations = {
     en: "Your thoughts",
     fr: "Vos pensées",
     es: "Tus pensamientos",
+    zh: "你的想法",
   },
   howsTheBrew: {
     "pt-BR": "Como está o café? E o ambiente?",
@@ -205,6 +240,7 @@ const translations: Translations = {
     en: "How's the brew? The atmosphere?",
     fr: "Comment est le café? L'ambiance?",
     es: "¿Cómo está el café? ¿El ambiente?",
+    zh: "咖啡怎么样？氛围如何？",
   },
   photos: {
     "pt-BR": "Fotos (máx. 4)",
@@ -212,6 +248,7 @@ const translations: Translations = {
     en: "Photos (up to 4)",
     fr: "Photos (jusqu'à 4)",
     es: "Fotos (hasta 4)",
+    zh: "照片（最多 4 张）",
   },
   pasteImageUrl: {
     "pt-BR": "Cole o URL da imagem aqui...",
@@ -219,6 +256,7 @@ const translations: Translations = {
     en: "Paste image URL here...",
     fr: "Collez l'URL de l'image ici...",
     es: "Pega la URL de la imagen aquí...",
+    zh: "在此粘贴图片链接...",
   },
   add: {
     "pt-BR": "Adicionar",
@@ -226,6 +264,7 @@ const translations: Translations = {
     en: "Add",
     fr: "Ajouter",
     es: "Agregar",
+    zh: "添加",
   },
   publishing: {
     "pt-BR": "Publicando...",
@@ -233,6 +272,7 @@ const translations: Translations = {
     en: "Publishing...",
     fr: "Publication...",
     es: "Publicando...",
+    zh: "发布中...",
   },
   limitReached: {
     "pt-BR": "Limite atingido",
@@ -240,6 +280,7 @@ const translations: Translations = {
     en: "Limit reached",
     fr: "Limite atteinte",
     es: "Límite alcanzado",
+    zh: "已达上限",
   },
   maxPhotos: {
     "pt-BR": "Máximo 4 fotos permitidas",
@@ -247,6 +288,7 @@ const translations: Translations = {
     en: "Maximum 4 photos allowed",
     fr: "Maximum 4 photos autorisées",
     es: "Máximo 4 fotos permitidas",
+    zh: "最多只能上传 4 张照片",
   },
   invalidUrl: {
     "pt-BR": "URL inválido",
@@ -254,6 +296,7 @@ const translations: Translations = {
     en: "Invalid URL",
     fr: "URL invalide",
     es: "URL inválido",
+    zh: "链接无效",
   },
   invalidUrlDesc: {
     "pt-BR": "Insira um URL de imagem válido",
@@ -261,6 +304,7 @@ const translations: Translations = {
     en: "Please enter a valid image URL",
     fr: "Veuillez entrer une URL d'image valide",
     es: "Por favor ingresa una URL de imagen válida",
+    zh: "请输入有效的图片链接",
   },
   postCreated: {
     "pt-BR": "Post criado!",
@@ -268,6 +312,7 @@ const translations: Translations = {
     en: "Post created!",
     fr: "Publication créée!",
     es: "¡Publicación creada!",
+    zh: "动态已发布！",
   },
   // CreateShopForm
   shopName: {
@@ -276,6 +321,7 @@ const translations: Translations = {
     en: "Shop Name",
     fr: "Nom du café",
     es: "Nombre de la cafetería",
+    zh: "咖啡馆名称",
   },
   shopNamePlaceholder: {
     "pt-BR": "ex: O Moinho Diário",
@@ -283,6 +329,7 @@ const translations: Translations = {
     en: "e.g. The Daily Grind",
     fr: "ex: Le Moulin Quotidien",
     es: "ej: El Molino Diario",
+    zh: "例如：每日研磨",
   },
   location: {
     "pt-BR": "Localização",
@@ -290,6 +337,7 @@ const translations: Translations = {
     en: "Location",
     fr: "Emplacement",
     es: "Ubicación",
+    zh: "位置",
   },
   fullAddress: {
     "pt-BR": "Endereço completo",
@@ -297,6 +345,7 @@ const translations: Translations = {
     en: "Full street address",
     fr: "Adresse complète",
     es: "Dirección completa",
+    zh: "详细地址",
   },
   description: {
     "pt-BR": "Descrição",
@@ -304,6 +353,7 @@ const translations: Translations = {
     en: "Description",
     fr: "Description",
     es: "Descripción",
+    zh: "描述",
   },
   shopDescPlaceholder: {
     "pt-BR": "O que torna este lugar especial? Ambiente, café...",
@@ -311,6 +361,7 @@ const translations: Translations = {
     en: "What makes this place special? Vibe, coffee beans, seating...",
     fr: "Qu'est-ce qui rend cet endroit spécial?",
     es: "¿Qué hace especial este lugar?",
+    zh: "是什么让这里与众不同？氛围、咖啡豆、座位...",
   },
   coverImageUrl: {
     "pt-BR": "URL da Imagem de Capa (Opcional)",
@@ -318,6 +369,7 @@ const translations: Translations = {
     en: "Cover Image URL (Optional)",
     fr: "URL de l'image de couverture (Optionnel)",
     es: "URL de imagen de portada (Opcional)",
+    zh: "封面图片链接（可选）",
   },
   addingShop: {
     "pt-BR": "Adicionando...",
@@ -325,6 +377,7 @@ const translations: Translations = {
     en: "Adding Shop...",
     fr: "Ajout en cours...",
     es: "Agregando...",
+    zh: "正在添加...",
   },
   addCoffeeShop: {
     "pt-BR": "Adicionar Café",
@@ -332,6 +385,7 @@ const translations: Translations = {
     en: "Add Coffee Shop",
     fr: "Ajouter le café",
     es: "Agregar cafetería",
+    zh: "添加咖啡馆",
   },
   shopAdded: {
     "pt-BR": "Café adicionado!",
@@ -339,6 +393,7 @@ const translations: Translations = {
     en: "Coffee Shop added!",
     fr: "Café ajouté!",
     es: "¡Cafetería agregada!",
+    zh: "咖啡馆已添加！",
   },
   loading: {
     "pt-BR": "Carregando...",
@@ -346,6 +401,7 @@ const translations: Translations = {
     en: "Loading...",
     fr: "Chargement...",
     es: "Cargando...",
+    zh: "加载中...",
   },
   shopNotFound: {
     "pt-BR": "Café não encontrado",
@@ -353,6 +409,7 @@ const translations: Translations = {
     en: "Shop not found",
     fr: "Café introuvable",
     es: "Cafetería no encontrada",
+    zh: "未找到咖啡馆",
   },
   backToDirectory: {
     "pt-BR": "Voltar ao Início",
@@ -360,6 +417,7 @@ const translations: Translations = {
     en: "Back to Home",
     fr: "Retour au debut",
     es: "Volver al inicio",
+    zh: "返回首页",
   },
   directory: {
     "pt-BR": "Início",
@@ -367,6 +425,7 @@ const translations: Translations = {
     en: "Home",
     fr: "Annuaire",
     es: "Home",
+    zh: "首页",
   },
   saved: {
     "pt-BR": "Salvo",
@@ -374,6 +433,7 @@ const translations: Translations = {
     en: "Saved",
     fr: "Sauvegardé",
     es: "Guardado",
+    zh: "已收藏",
   },
   favorite: {
     "pt-BR": "Favoritar",
@@ -381,6 +441,7 @@ const translations: Translations = {
     en: "Favorite",
     fr: "Favori",
     es: "Favorito",
+    zh: "收藏",
   },
   directions: {
     "pt-BR": "Direções",
@@ -388,6 +449,7 @@ const translations: Translations = {
     en: "Directions",
     fr: "Itinéraire",
     es: "Direcciones",
+    zh: "路线",
   },
   communityReviews: {
     "pt-BR": "Fotos & Avaliações da Comunidade",
@@ -395,6 +457,7 @@ const translations: Translations = {
     en: "Community Photos & Reviews",
     fr: "Photos & Avis de la communauté",
     es: "Fotos y reseñas de la comunidad",
+    zh: "社区照片与评价",
   },
   posts: {
     "pt-BR": "Posts",
@@ -402,6 +465,7 @@ const translations: Translations = {
     en: "Posts",
     fr: "Publications",
     es: "Publicaciones",
+    zh: "动态",
   },
   noReviewsYet: {
     "pt-BR": "Ainda sem avaliações para",
@@ -409,6 +473,7 @@ const translations: Translations = {
     en: "No reviews yet for",
     fr: "Pas encore d'avis pour",
     es: "Sin reseñas aún para",
+    zh: "还没有评价：",
   },
   beFirstToPost: {
     "pt-BR": "Seja o primeiro a publicar",
@@ -416,6 +481,7 @@ const translations: Translations = {
     en: "Be the first to post",
     fr: "Soyez le premier à publier",
     es: "Sé el primero en publicar",
+    zh: "来当第一个发布的人",
   },
   pageNotFound: {
     "pt-BR": "Página não encontrada",
@@ -423,6 +489,7 @@ const translations: Translations = {
     en: "Page Not Found",
     fr: "Page introuvable",
     es: "Página no encontrada",
+    zh: "页面未找到",
   },
   pageNotFoundDesc: {
     "pt-BR": "A página que você procura não existe.",
@@ -430,6 +497,7 @@ const translations: Translations = {
     en: "The page you're looking for doesn't exist.",
     fr: "La page que vous cherchez n'existe pas.",
     es: "La página que buscas no existe.",
+    zh: "你要找的页面不存在。",
   },
   backToHome: {
     "pt-BR": "Voltar ao início",
@@ -437,6 +505,31 @@ const translations: Translations = {
     en: "Back to Home",
     fr: "Retour à l'accueil",
     es: "Volver al inicio",
+    zh: "返回首页",
+  },
+  errorTitle: {
+    "pt-BR": "Algo deu errado",
+    "pt-PT": "Algo correu mal",
+    en: "Something went wrong",
+    fr: "Une erreur est survenue",
+    es: "Algo salió mal",
+    zh: "出了点问题",
+  },
+  errorDesc: {
+    "pt-BR": "Ocorreu um erro inesperado. Tente novamente.",
+    "pt-PT": "Ocorreu um erro inesperado. Tenta novamente.",
+    en: "An unexpected error occurred. Please try again.",
+    fr: "Une erreur inattendue s'est produite. Réessayez.",
+    es: "Ocurrió un error inesperado. Inténtalo de nuevo.",
+    zh: "发生了意外错误，请重试。",
+  },
+  tryAgain: {
+    "pt-BR": "Tentar novamente",
+    "pt-PT": "Tentar novamente",
+    en: "Try again",
+    fr: "Réessayer",
+    es: "Intentar de nuevo",
+    zh: "重试",
   },
   landingTagline: {
     "pt-BR": "Junte-se à comunidade de amantes de café",
@@ -444,6 +537,7 @@ const translations: Translations = {
     en: "Join the community of coffee lovers",
     fr: "Rejoignez la communauté des amateurs de café",
     es: "Únete a la comunidad de amantes del café",
+    zh: "加入咖啡爱好者社区",
   },
   landingHeroLine1: {
     "pt-BR": "Descubra o seu próximo",
@@ -451,6 +545,7 @@ const translations: Translations = {
     en: "Discover your next",
     fr: "Découvrez votre prochain",
     es: "Descubre tu próximo",
+    zh: "发现你的下一杯",
   },
   landingHeroHighlight: {
     "pt-BR": "café perfeito",
@@ -458,15 +553,17 @@ const translations: Translations = {
     en: "perfect cup",
     fr: "café parfait",
     es: "café perfecto",
+    zh: "完美咖啡",
   },
   landingSubtitle: {
     "pt-BR":
       "Compartilhe seus lugares favoritos, avalie os melhores cafés e explore um diretório de cafeterias.",
     "pt-PT":
-      "Partilha os teus locais favoritos, avalia os melhores cafés e explora um directório de cafeterias.",
+      "Partilha os teus locais favoritos, avalia os melhores cafés e explora um diretório de cafeterias.",
     en: "Share your favorite spots, review the best brews, and explore a curated directory of coffee shops.",
     fr: "Partagez vos endroits préférés, évaluez les meilleures préparations et explorez un répertoire de cafés.",
     es: "Comparte tus lugares favoritos, reseña las mejores infusiones y explora un directorio de cafeterías.",
+    zh: "分享你钟爱的咖啡馆，点评最棒的咖啡，探索精选咖啡馆名录。",
   },
   getStarted: {
     "pt-BR": "Começar",
@@ -474,6 +571,7 @@ const translations: Translations = {
     en: "Get Started",
     fr: "Commencer",
     es: "Empezar",
+    zh: "开始使用",
   },
   exploreShops: {
     "pt-BR": "Explorar Cafés",
@@ -481,6 +579,7 @@ const translations: Translations = {
     en: "Explore Shops",
     fr: "Explorer les cafés",
     es: "Explorar cafeterías",
+    zh: "浏览咖啡馆",
   },
   featureDiscoverTitle: {
     "pt-BR": "Descubra o Local",
@@ -488,6 +587,7 @@ const translations: Translations = {
     en: "Discover Local",
     fr: "Découvrir Localement",
     es: "Descubrir Local",
+    zh: "发现本地好店",
   },
   featureDiscoverDesc: {
     "pt-BR": "Encontre joias escondidas e cafés bem avaliados perto de você.",
@@ -495,6 +595,7 @@ const translations: Translations = {
     en: "Find hidden gems and highly rated coffee shops near you.",
     fr: "Trouvez des perles rares et des cafés bien notés près de chez vous.",
     es: "Encuentra joyas escondidas y cafeterías bien valoradas cerca de ti.",
+    zh: "发现你身边的隐藏好店和高分咖啡馆。",
   },
   featureShareTitle: {
     "pt-BR": "Compartilhe Avaliações",
@@ -502,6 +603,7 @@ const translations: Translations = {
     en: "Share Reviews",
     fr: "Partager des Avis",
     es: "Compartir Reseñas",
+    zh: "分享评价",
   },
   featureShareDesc: {
     "pt-BR":
@@ -511,6 +613,7 @@ const translations: Translations = {
     en: "Post your experiences, attach photos, and engage in conversations.",
     fr: "Publiez vos expériences, joignez des photos et engagez des conversations.",
     es: "Publica tus experiencias, adjunta fotos y participa en conversaciones.",
+    zh: "发布你的体验，附上照片，参与讨论。",
   },
   featureFavTitle: {
     "pt-BR": "Salve Favoritos",
@@ -518,6 +621,7 @@ const translations: Translations = {
     en: "Save Favorites",
     fr: "Sauvegarder les Favoris",
     es: "Guardar Favoritos",
+    zh: "收藏喜爱",
   },
   featureFavDesc: {
     "pt-BR": "Mantenha uma coleção pessoal dos seus melhores cafés.",
@@ -525,6 +629,7 @@ const translations: Translations = {
     en: "Keep a personal collection of your top-tier shops.",
     fr: "Gardez une collection personnelle de vos meilleurs cafés.",
     es: "Mantén una colección personal de tus mejores cafeterías.",
+    zh: "收藏属于你自己的心头好咖啡馆。",
   },
   loginError: {
     "pt-BR": "Erro",
@@ -532,6 +637,7 @@ const translations: Translations = {
     en: "Error",
     fr: "Erreur",
     es: "Error",
+    zh: "错误",
   },
   loginErrorDesc: {
     "pt-BR": "Algo deu errado",
@@ -539,6 +645,7 @@ const translations: Translations = {
     en: "Something went wrong",
     fr: "Quelque chose s'est mal passé",
     es: "Algo salió mal",
+    zh: "出了点问题",
   },
   createAccount: {
     "pt-BR": "Criar conta",
@@ -546,6 +653,7 @@ const translations: Translations = {
     en: "Create account",
     fr: "Créer un compte",
     es: "Crear cuenta",
+    zh: "创建账户",
   },
   welcomeBack: {
     "pt-BR": "Bem-vindo de volta",
@@ -553,6 +661,7 @@ const translations: Translations = {
     en: "Welcome back",
     fr: "Bon retour",
     es: "Bienvenido de nuevo",
+    zh: "欢迎回来",
   },
   continueWithGoogle: {
     "pt-BR": "Continuar com Google",
@@ -560,14 +669,16 @@ const translations: Translations = {
     en: "Continue with Google",
     fr: "Continuer avec Google",
     es: "Continuar con Google",
+    zh: "使用 Google 继续",
   },
-  or: { "pt-BR": "ou", "pt-PT": "ou", en: "or", fr: "ou", es: "o" },
+  or: { "pt-BR": "ou", "pt-PT": "ou", en: "or", fr: "ou", es: "o", zh: "或" },
   firstName: {
     "pt-BR": "Nome",
     "pt-PT": "Nome",
     en: "First Name",
     fr: "Prénom",
     es: "Nombre",
+    zh: "名字",
   },
   lastName: {
     "pt-BR": "Sobrenome",
@@ -575,6 +686,7 @@ const translations: Translations = {
     en: "Last Name",
     fr: "Nom de famille",
     es: "Apellido",
+    zh: "姓氏",
   },
   processing: {
     "pt-BR": "Processando...",
@@ -582,6 +694,7 @@ const translations: Translations = {
     en: "Processing...",
     fr: "Traitement...",
     es: "Procesando...",
+    zh: "处理中...",
   },
   alreadyHaveAccount: {
     "pt-BR": "Já tem conta?",
@@ -589,6 +702,7 @@ const translations: Translations = {
     en: "Already have an account?",
     fr: "Vous avez déjà un compte?",
     es: "¿Ya tienes cuenta?",
+    zh: "已有账户？",
   },
   dontHaveAccount: {
     "pt-BR": "Ainda não tem conta?",
@@ -596,6 +710,7 @@ const translations: Translations = {
     en: "Don't have an account?",
     fr: "Vous n'avez pas de compte?",
     es: "¿No tienes cuenta?",
+    zh: "还没有账户？",
   },
   register: {
     "pt-BR": "Registrar",
@@ -603,6 +718,7 @@ const translations: Translations = {
     en: "Register",
     fr: "S'inscrire",
     es: "Registrarse",
+    zh: "注册",
   },
   notSignedIn: {
     "pt-BR": "Não autenticado",
@@ -610,6 +726,7 @@ const translations: Translations = {
     en: "Not Signed In",
     fr: "Non connecté",
     es: "No autenticado",
+    zh: "未登录",
   },
   notSignedInDesc: {
     "pt-BR": "Você precisa entrar para ver seu perfil.",
@@ -617,6 +734,7 @@ const translations: Translations = {
     en: "You need to sign in to view your profile.",
     fr: "Vous devez vous connecter pour voir votre profil.",
     es: "Necesitas iniciar sesión para ver tu perfil.",
+    zh: "你需要登录才能查看个人资料。",
   },
   editProfile: {
     "pt-BR": "Editar Perfil",
@@ -624,6 +742,7 @@ const translations: Translations = {
     en: "Edit Profile",
     fr: "Modifier le profil",
     es: "Editar perfil",
+    zh: "编辑资料",
   },
   savedShops: {
     "pt-BR": "Cafés Salvos",
@@ -631,6 +750,7 @@ const translations: Translations = {
     en: "Saved Shops",
     fr: "Cafés sauvegardés",
     es: "Cafeterías guardadas",
+    zh: "已收藏咖啡馆",
   },
   myPosts: {
     "pt-BR": "Meus Posts",
@@ -638,6 +758,7 @@ const translations: Translations = {
     en: "My Posts",
     fr: "Mes publications",
     es: "Mis publicaciones",
+    zh: "我的动态",
   },
   noPostsProfile: {
     "pt-BR": "Você ainda não compartilhou nenhuma experiência.",
@@ -645,6 +766,7 @@ const translations: Translations = {
     en: "You haven't shared any experiences yet.",
     fr: "Vous n'avez pas encore partagé d'expériences.",
     es: "Aún no has compartido ninguna experiencia.",
+    zh: "你还没有分享任何体验。",
   },
   noFavoritesProfile: {
     "pt-BR": "Você ainda não salvou nenhum café.",
@@ -652,6 +774,7 @@ const translations: Translations = {
     en: "You haven't saved any coffee shops yet.",
     fr: "Vous n'avez pas encore sauvegardé de cafés.",
     es: "Aún no has guardado ninguna cafetería.",
+    zh: "你还没有收藏任何咖啡馆。",
   },
   notifications: {
     "pt-BR": "Notificações",
@@ -659,6 +782,7 @@ const translations: Translations = {
     en: "Notifications",
     fr: "Notifications",
     es: "Notificaciones",
+    zh: "通知",
   },
   noNotifications: {
     "pt-BR": "Sem notificações",
@@ -666,6 +790,7 @@ const translations: Translations = {
     en: "No notifications",
     fr: "Aucune notification",
     es: "Sin notificaciones",
+    zh: "暂无通知",
   },
   notifLike: {
     "pt-BR": "alguém curtiu seu post",
@@ -673,6 +798,7 @@ const translations: Translations = {
     en: "someone liked your post",
     fr: "quelqu'un a aimé votre post",
     es: "alguien le gustó tu post",
+    zh: "有人赞了你的动态",
   },
   notifComment: {
     "pt-BR": "alguém comentou no seu post",
@@ -680,6 +806,7 @@ const translations: Translations = {
     en: "someone commented on your post",
     fr: "quelqu'un a commenté votre post",
     es: "alguien comentó en tu post",
+    zh: "有人评论了你的动态",
   },
   postNotFound: {
     "pt-BR": "Post não encontrado",
@@ -687,6 +814,7 @@ const translations: Translations = {
     en: "Post not found",
     fr: "Publication introuvable",
     es: "Publicación no encontrada",
+    zh: "未找到动态",
   },
   searchPlaceholder: {
     "pt-BR": "Pesquisar cafés e posts...",
@@ -694,6 +822,7 @@ const translations: Translations = {
     en: "Search shops and posts...",
     fr: "Rechercher cafés et posts...",
     es: "Buscar cafeterías y posts...",
+    zh: "搜索咖啡馆和动态...",
   },
   noResults: {
     "pt-BR": "Sem resultados",
@@ -701,6 +830,7 @@ const translations: Translations = {
     en: "No results found",
     fr: "Aucun résultat",
     es: "Sin resultados",
+    zh: "没有找到结果",
   },
   profileUpdated: {
     "pt-BR": "Perfil atualizado!",
@@ -708,6 +838,7 @@ const translations: Translations = {
     en: "Profile updated!",
     fr: "Profil mis à jour!",
     es: "¡Perfil actualizado!",
+    zh: "资料已更新！",
   },
   profilePhoto: {
     "pt-BR": "URL da foto de perfil",
@@ -715,6 +846,7 @@ const translations: Translations = {
     en: "Profile photo URL",
     fr: "URL de la photo de profil",
     es: "URL de la foto de perfil",
+    zh: "头像图片链接",
   },
   saveChanges: {
     "pt-BR": "Salvar alterações",
@@ -722,6 +854,7 @@ const translations: Translations = {
     en: "Save changes",
     fr: "Enregistrer",
     es: "Guardar cambios",
+    zh: "保存更改",
   },
   uploadImage: {
     "pt-BR": "Clique para fazer upload de imagem",
@@ -729,6 +862,7 @@ const translations: Translations = {
     en: "Click to upload image",
     fr: "Cliquez pour télécharger une image",
     es: "Haz clic para subir una imagen",
+    zh: "点击上传图片",
   },
   uploadSuccess: {
     "pt-BR": "Imagem carregada com sucesso!",
@@ -736,6 +870,7 @@ const translations: Translations = {
     en: "Image uploaded successfully!",
     fr: "Image téléchargée avec succès!",
     es: "¡Imagen subida con éxito!",
+    zh: "图片上传成功！",
   },
   uploadError: {
     "pt-BR": "Erro ao carregar imagem",
@@ -743,6 +878,7 @@ const translations: Translations = {
     en: "Failed to upload image",
     fr: "Échec du téléchargement",
     es: "Error al subir imagen",
+    zh: "图片上传失败",
   },
   delete: {
     "pt-BR": "Apagar",
@@ -750,6 +886,7 @@ const translations: Translations = {
     en: "Delete",
     fr: "Supprimer",
     es: "Eliminar",
+    zh: "删除",
   },
 };
 
@@ -763,14 +900,20 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
   undefined,
 );
 
+const SUPPORTED: Language[] = ["pt-PT", "pt-BR", "en", "fr", "es", "zh"];
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>(() => {
     const saved = localStorage.getItem("language");
-    return (saved as Language) || "pt-BR";
+    if (saved && SUPPORTED.includes(saved as Language)) {
+      return saved as Language;
+    }
+    return "pt-PT";
   });
 
   useEffect(() => {
     localStorage.setItem("language", language);
+    document.documentElement.lang = language;
   }, [language]);
 
   const t = (key: string) => {
