@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { ThemeProvider } from "@/hooks/use-theme";
 import { LanguageProvider } from "@/hooks/use-language";
 import { Switch, Route } from "wouter";
@@ -6,16 +7,25 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/use-auth";
-import NotFound from "@/pages/not-found";
 import { Loader2 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
-import Landing from "@/pages/Landing";
-import Home from "@/pages/Home";
-import CoffeeShopsDirectory from "@/pages/CoffeeShopsDirectory";
-import CoffeeShopDetails from "@/pages/CoffeeShopDetails";
-import Profile from "@/pages/Profile";
-import Login from "@/pages/Login";
-import PostDetails from "@/pages/PostDetails";
+
+const Landing = lazy(() => import("@/pages/Landing"));
+const Home = lazy(() => import("@/pages/Home"));
+const CoffeeShopsDirectory = lazy(() => import("@/pages/CoffeeShopsDirectory"));
+const CoffeeShopDetails = lazy(() => import("@/pages/CoffeeShopDetails"));
+const Profile = lazy(() => import("@/pages/Profile"));
+const Login = lazy(() => import("@/pages/Login"));
+const PostDetails = lazy(() => import("@/pages/PostDetails"));
+const NotFound = lazy(() => import("@/pages/not-found"));
+
+function RouteLoader() {
+  return (
+    <div className="h-[60vh] w-full flex items-center justify-center">
+      <Loader2 className="w-8 h-8 text-primary motion-safe:animate-spin" />
+    </div>
+  );
+}
 
 // Layout wrapper for authenticated/app views
 function AppLayout({ children }: { children: React.ReactNode }) {
@@ -39,6 +49,7 @@ function Router() {
   }
 
   return (
+    <Suspense fallback={<RouteLoader />}>
     <Switch>
       {/* Root Route - Switch between Landing and Feed based on Auth */}
       <Route path="/">
@@ -85,6 +96,7 @@ function Router() {
         </AppLayout>
       </Route>
     </Switch>
+    </Suspense>
   );
 }
 

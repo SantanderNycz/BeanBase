@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Loader2, Plus, PenSquare, Coffee } from "lucide-react";
+import { Plus, PenSquare, Coffee } from "lucide-react";
 import { usePosts } from "@/hooks/use-posts";
+import { FeedSkeleton } from "@/components/shared/Skeletons";
 import { useAuth } from "@/hooks/use-auth";
 import { PostCard } from "@/components/shared/PostCard";
 import { CreatePostForm } from "@/components/forms/CreatePostForm";
@@ -69,12 +70,7 @@ export default function Home() {
 
       {/* Feed */}
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-20 text-primary">
-          <Loader2 className="h-10 w-10 animate-spin mb-4" />
-          <p className="font-medium text-muted-foreground">
-            {t("brewingFeed")}
-          </p>
-        </div>
+        <FeedSkeleton />
       ) : posts?.length === 0 ? (
         <div className="text-center py-20 bg-secondary/30 rounded-3xl border border-border/40 border-dashed">
           <div className="bg-background w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">

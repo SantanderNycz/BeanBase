@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Store, Loader2, Plus } from "lucide-react";
+import { Store, Plus } from "lucide-react";
 import { useCoffeeShops } from "@/hooks/use-coffee-shops";
+import { ShopGridSkeleton } from "@/components/shared/Skeletons";
 import { useAuth } from "@/hooks/use-auth";
 import { CoffeeShopCard } from "@/components/shared/CoffeeShopCard";
 import { CreateShopForm } from "@/components/forms/CreateShopForm";
@@ -67,14 +68,7 @@ export default function CoffeeShopsDirectory() {
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map((i) => (
-            <div
-              key={i}
-              className="bg-card rounded-2xl aspect-[3/4] animate-pulse border border-border/30"
-            />
-          ))}
-        </div>
+        <ShopGridSkeleton />
       ) : shops?.length === 0 ? (
         <div className="text-center py-32 bg-secondary/30 rounded-3xl border border-border/40 border-dashed">
           <Store className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
