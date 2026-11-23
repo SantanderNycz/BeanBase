@@ -10,7 +10,7 @@
 
 ## 🚀 Demo
 
-🔗 [beanbase.up.railway.app](https://beanbase.up.railway.app)
+🔗 [bean-base.onrender.com](https://bean-base.onrender.com)
 
 ---
 
@@ -22,11 +22,13 @@
 - ❤️ **Likes** — Gosta de posts de outros utilizadores
 - 🏪 **Directório de Cafés** — Descobre e adiciona cafés locais
 - ⭐ **Favoritos** — Guarda os teus cafés favoritos
-- 🔔 **Notificações** — Recebe notificações de likes e comentários
+- 🔔 **Notificações** — Notificações em tempo real de likes e comentários
 - 🔍 **Pesquisa** — Pesquisa cafés e posts em tempo real
+- 🖼️ **Upload de Imagens** — Fotos de posts e perfis via Cloudinary
 - 👤 **Perfil** — Edita o teu perfil e vê os teus posts
-- 🌍 **Multilíngue** — Português (PT/BR), Inglês, Francês e Espanhol
-- 🌙 **Tema** — Modo claro e escuro
+- 🌍 **Multilíngue** — Português (PT/BR), Inglês, Espanhol, Francês e Mandarim
+- 🌙 **Tema** — Modo claro e escuro, com _skeletons_ de carregamento
+- ♿ **Acessível** — Respeita `prefers-reduced-motion`
 
 ---
 
@@ -61,7 +63,8 @@
 | Tecnologia        | Uso                       |
 | ----------------- | ------------------------- |
 | PostgreSQL (Neon) | Base de dados em produção |
-| Railway           | Deploy do servidor        |
+| Render            | Deploy do servidor        |
+| Cloudinary        | Armazenamento de imagens  |
 | Google OAuth 2.0  | Autenticação social       |
 
 ---
@@ -75,7 +78,7 @@ BeanBase/
 │       ├── components/
 │       │   ├── forms/        # CreatePostForm, CreateShopForm
 │       │   ├── layout/       # Navbar
-│       │   └── shared/       # PostCard, CommentDialog, CoffeeShopCard
+│       │   └── shared/       # PostCard, CoffeeShopCard, Skeletons, ErrorBoundary
 │       ├── hooks/            # use-auth, use-posts, use-coffee-shops, etc.
 │       ├── lib/              # queryClient, utils
 │       └── pages/            # Home, Login, Landing, Profile, etc.
@@ -91,7 +94,7 @@ BeanBase/
 ├── script/
 │   └── build.ts              # Script de build (esbuild + vite)
 ├── drizzle.config.ts
-└── vercel.json / railway.toml
+└── render.yaml              # Blueprint de deploy (Render)
 ```
 
 ---
@@ -123,9 +126,15 @@ Cria um ficheiro `.env` na raiz:
 ```env
 DATABASE_URL=postgresql://user:password@host/dbname?sslmode=require
 SESSION_SECRET=uma-string-aleatoria-segura
+APP_URL=https://bean-base.onrender.com
 GOOGLE_CLIENT_ID=o-teu-google-client-id
 GOOGLE_CLIENT_SECRET=o-teu-google-client-secret
+CLOUDINARY_CLOUD_NAME=o-teu-cloud-name
+CLOUDINARY_API_KEY=a-tua-api-key
+CLOUDINARY_API_SECRET=o-teu-api-secret
 ```
+
+> Nota: sem `DATABASE_URL` definida, o servidor não arranca. Em produção, define todas as variáveis antes do primeiro deploy.
 
 ### 4. Cria as tabelas na base de dados
 
@@ -152,24 +161,26 @@ O servidor estará disponível em `http://localhost:5000`.
 5. Cria um **ID do cliente OAuth** (tipo: Aplicativo da Web)
 6. Adiciona os URIs de redirecionamento:
    - `http://localhost:5000/api/auth/google/callback` (desenvolvimento)
-   - `https://teu-dominio.railway.app/api/auth/google/callback` (produção)
+   - `https://bean-base.onrender.com/api/auth/google/callback` (produção)
 7. Copia o **Client ID** e **Client Secret** para o `.env`
 
 ---
 
 ## 🚢 Deploy
 
-### Railway (recomendado)
+### Render (recomendado)
 
-1. Faz login em [railway.app](https://railway.app) com GitHub
-2. **New Project → Deploy from GitHub repo**
-3. Adiciona as variáveis de ambiente em **Variables**:
+O repositório inclui um `render.yaml` (Blueprint) já configurado.
+
+1. Faz login em [render.com](https://render.com) com GitHub
+2. **New → Blueprint** e seleciona o repositório
+3. Define as variáveis marcadas como `sync: false` em **Environment**:
    - `DATABASE_URL`
-   - `SESSION_SECRET`
-   - `GOOGLE_CLIENT_ID`
-   - `GOOGLE_CLIENT_SECRET`
-4. Em **Settings → Networking**, gera um domínio público
-5. O Railway deteta automaticamente os scripts `build` e `start`
+   - `APP_URL`
+   - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`
+   - `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET`
+   - `SESSION_SECRET` é gerado automaticamente
+4. O Render usa `npm install && npm run build` e `npm run start` do Blueprint
 
 ### Scripts disponíveis
 
@@ -235,11 +246,12 @@ npm run check    # Verificação de tipos TypeScript
 
 ## 🌍 Idiomas Suportados
 
-- 🇧🇷 Português (Brasil)
 - 🇵🇹 Português (Portugal)
+- 🇧🇷 Português (Brasil)
 - 🇬🇧 English
-- 🇫🇷 Français
 - 🇪🇸 Español
+- 🇫🇷 Français
+- 🇨🇳 中文 (Mandarim)
 
 ---
 
