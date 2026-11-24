@@ -42,7 +42,7 @@ export async function setupAuth(app: Express) {
           clientSecret: process.env.GOOGLE_CLIENT_SECRET,
           callbackURL:
             process.env.NODE_ENV === "production"
-              ? `${process.env.APP_URL}/api/auth/google/callback`
+              ? `${(process.env.APP_URL || "").replace(/\/$/, "")}/api/auth/google/callback`
               : "http://localhost:5000/api/auth/google/callback",
         },
         async (accessToken, refreshToken, profile, done) => {
